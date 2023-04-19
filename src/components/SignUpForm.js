@@ -147,7 +147,7 @@ function SignUpForm() {
         {error.password2 && <div class="text-danger">{error.password2}</div>}
       </div>
       {error.allFields && <div class="text-danger">{error.allFields}</div>}
-      <button className="btn btn-primary col-2" type="submit" >S'inscrire</button>
+      <button className="btn btn-primary col-lg-2 col-sm-3" type="submit" >S'inscrire</button>
   </form>
   )
 }
