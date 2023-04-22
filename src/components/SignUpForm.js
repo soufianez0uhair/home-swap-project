@@ -107,7 +107,6 @@ function SignUpForm() {
     }
   }
 
-  console.log(error);
   return (
     <form className="row mx-auto mx-sm-3 mt-auto g-3" onSubmit={(e) => handleSubmit(e)} >
       <h1>Créez votre compte!</h1>

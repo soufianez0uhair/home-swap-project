@@ -29,7 +29,7 @@ export const emailValidator = (email) => {
 }
 
 export const phoneNumValidator = (phone) => {
-  const PHONEEXREG = /(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}/;
+  const PHONEEXREG = /^(\+212|0)[67]\d{8}/;
   if(!phone.match(PHONEEXREG)) {
     return false;
   }
