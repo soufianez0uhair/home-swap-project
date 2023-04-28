@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { emailValidator } from "../helpers/validator";
+import axios from "axios";
 
 function SignInForm() {
   const [user, setUser] = useState({
@@ -21,7 +22,7 @@ function SignInForm() {
     allFields: ''
   });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if(!user.email || !user.password) {
       setError({
@@ -35,10 +36,24 @@ function SignInForm() {
         password: '',
         allfields: ''
       })
+    } else {
+      const url = 'http://localhost:8383/projet-home-swap/server/signin.php';
+
+      const userKeysArray = Object.keys(user);
+      let data = new FormData();
+      for(let i = 0; i < userKeysArray.length; i++) {
+        data.append(userKeysArray[i], user[userKeysArray[i]]);
+      }
+
+      await  axios.post(url, data)
+        .then(res => {
+          if(res.data) {
+            console.log(res.data);
+          }
+      })
     }
   }
 
-  console.log(user);
   return (
     <div className="h-100 d-flex align-items-center justify-content-center">
       <form className="d-flex flex-column" onSubmit={(e) => handleSubmit(e)} >
