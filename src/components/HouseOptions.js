@@ -10,6 +10,7 @@ function HouseOptions({swapSearch, rentSearch, handleChange}) {
   // <SwapSearchForm /> 
   const [isSwap, setIsSwap] = useState(true);
 
+  console.log(rentSearch.originalCity)
   return (
     <div className="position-relative d-flex" >
       <div className="d-flex flex-column me-3 houseOption" style={{color: isSwap ? 'rgb(13,110,253)' : ''}} onClick={() => setIsSwap(true)} >

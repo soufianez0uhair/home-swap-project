@@ -33,7 +33,7 @@ function Home() {
       });
     } else {
       setRentSearch({
-        ...swapSearch,
+        ...rentSearch,
         [name]: value
       });
     }
