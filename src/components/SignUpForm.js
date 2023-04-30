@@ -2,8 +2,12 @@ import { useState } from "react";
 import {emailValidator, nameValidator, passwordValidator, phoneNumValidator} from '../helpers/validator';
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {useDispatch} from 'react-redux';
+import { auth } from "../redux/userSlice";
 
 function SignUpForm() {
+  const dispatch = useDispatch();
+
   const [user, setUser] = useState({
     prenom: '',
     nom: '',
@@ -115,11 +119,15 @@ function SignUpForm() {
         data.append(userKeysArray[i], user[userKeysArray[i]]);
       }
 
-      await  axios.post(url, data)
+      await axios.post(url, data)
         .then(res => {
-          if(res.data) {
-            console.log(res.data);
-          } /* else {
+          const data = JSON.stringify(res.data);
+          console.log(data);
+          dispatch(auth(JSON.parse(data))); // remove the console.log and store the date in the userSlice for user and error(find a way)
+          
+          /* if(res.ok) {
+            console.log(res.text())
+          } */ /* else {
             const errorKeysArray = Object.keys(res.data.error);
             const newErrorState = {
               nom: '',
@@ -135,6 +143,7 @@ function SignUpForm() {
             }
           } */
         })
+        
     }
   }
 
