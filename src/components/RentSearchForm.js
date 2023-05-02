@@ -1,6 +1,9 @@
 import {HiSearchCircle} from 'react-icons/hi';
 
+import { useNavigate } from 'react-router-dom';
+
   function RentSearchForm({rentSearch, handleChange}) {
+    const navigate = useNavigate();
 
     const getTodayDate = () => {
       const date = new Date();
@@ -16,11 +19,17 @@ import {HiSearchCircle} from 'react-icons/hi';
       return dateString;
     }
 
+    function search(e) {
+      e.preventDefault();
+
+      navigate(`/search/results/${false}/""/${rentSearch.targetedCity}/${rentSearch.startDate}/${rentSearch.endDate}`);
+    }
+
     return (
-      <form className="d-flex align-items-center rounded-pill border overflow-hidden p-2" >
-        <input name="targetedCity" value={rentSearch.targetedCity} onChange={(e) => handleChange(e, 'rent')} className="border-0" style={{width: '9rem', border: "none", outline: "none"}} type="text" placeholder="Where to?" />
-        <input name="startDate" value={rentSearch.startDate} onChange={(e) => handleChange(e, 'rent')} min={getTodayDate()} max={rentSearch.endDate} className="border-0 me-1" type="date" />
-        <input name="endDate" value={rentSearch.endDate} onChange={(e) => handleChange(e, 'rent')} min={rentSearch.startDate} className="border-0 me-1" type="date" />
+      <form onSubmit={(e) => search(e)} className="d-flex align-items-center rounded-pill border overflow-hidden p-2" >
+        <input name="targetedCity" value={rentSearch.targetedCity} onChange={(e) => handleChange(e)} className="border-0" style={{width: '9rem', border: "none", outline: "none"}} type="text" placeholder="Where to?" />
+        <input name="startDate" value={rentSearch.startDate} onChange={(e) => handleChange(e)} min={getTodayDate()} max={rentSearch.endDate} className="border-0 me-1" type="date" />
+        <input name="endDate" value={rentSearch.endDate} onChange={(e) => handleChange(e)} min={rentSearch.startDate} className="border-0 me-1" type="date" />
         <HiSearchCircle className="fs-2 text-primary" />
       </form>
     )

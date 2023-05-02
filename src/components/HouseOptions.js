@@ -6,11 +6,9 @@ import { useState } from 'react';
 import SwapSearchForm from './SwapSearchForm';
 import RentSearchForm from './RentSearchForm';
 
-function HouseOptions({swapSearch, rentSearch, handleChange}) {
+function HouseOptions({swapSearch, rentSearch, handleChange, isSwap, setIsSwap}) {
   // <SwapSearchForm /> 
-  const [isSwap, setIsSwap] = useState(true);
 
-  console.log(rentSearch.originalCity)
   return (
     <div className="position-relative d-flex" >
       <div className="d-flex flex-column me-3 houseOption" style={{color: isSwap ? 'rgb(13,110,253)' : ''}} onClick={() => setIsSwap(true)} >
@@ -22,7 +20,7 @@ function HouseOptions({swapSearch, rentSearch, handleChange}) {
         <h6 className="text-center" >Rent</h6>
       </div>
       <div className="position-absolute top-100" >
-        {isSwap ? <SwapSearchForm swapSearch={swapSearch} handleChange={handleChange} /> : <RentSearchForm rentSearch={rentSearch} handleChange={handleChange} />}
+        {isSwap ? <SwapSearchForm setIsSwap={setIsSwap} swapSearch={swapSearch} handleChange={handleChange} /> : <RentSearchForm rentSearch={rentSearch} handleChange={handleChange} />}
       </div>
     </div>
   )

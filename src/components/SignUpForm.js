@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import {useDispatch} from 'react-redux';
 import { auth } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     prenom: '',
@@ -111,7 +113,7 @@ function SignUpForm() {
         password2: 'Les mots de passe doivent correspondre.',
       })
     } else {
-      const url = 'http://localhost:8383/projet-home-swap/server/signup.php';
+      const url = 'http://homeswaper2023.000webhostapp.com/signup.php';
 
       const userKeysArray = Object.keys(user);
       let data = new FormData();
@@ -121,29 +123,21 @@ function SignUpForm() {
 
       await axios.post(url, data)
         .then(res => {
-          const data = JSON.stringify(res.data);
-          console.log(data);
-          dispatch(auth(JSON.parse(data))); // remove the console.log and store the date in the userSlice for user and error(find a way)
-          
-          /* if(res.ok) {
-            console.log(res.text())
-          } */ /* else {
-            const errorKeysArray = Object.keys(res.data.error);
-            const newErrorState = {
-              nom: '',
-              prenom: '',
-              email: '',
-              telephone: '',
-              adresse: '',
-              password: '',
-              password2: '',
-            }
-            for(let i = 0; i < errorKeysArray.length; i++) {
-              
-            }
-          } */
-        })
-        
+        // res = JSON.parse(res);
+        console.log(res.data);
+        if(res.data.error) {
+          setError({
+            ...res.data.error
+          });
+        } else {
+          try {
+            dispatch(auth(res.data));
+            navigate('/');
+          } catch(e) {
+            alert(e.message);
+          }
+        }
+    })
     }
   }
 

@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { emailValidator } from "../helpers/validator";
 import axios from "axios";
+import {useDispatch} from 'react-redux';
+import { auth } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function SignInForm() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({
     email: '',
     password: ''
@@ -37,7 +43,7 @@ function SignInForm() {
         allfields: ''
       })
     } else {
-      const url = 'http://localhost:8383/projet-home-swap/server/signin.php';
+      const url = 'https://homeswaper2023.000webhostapp.com/login.php';
 
       const userKeysArray = Object.keys(user);
       let data = new FormData();
@@ -47,8 +53,17 @@ function SignInForm() {
 
       await  axios.post(url, data)
         .then(res => {
-          if(res.data) {
-            console.log(res.data);
+          if(res.data.error) {
+            setError({
+              ...res.data.error
+            });
+          } else {
+            try {
+              dispatch(auth(res.data));
+              navigate('/');
+            } catch(e) {
+              alert(e.message);
+            }
           }
       })
     }
@@ -67,6 +82,7 @@ function SignInForm() {
           <label className="form-label" htmlFor="password" >Mot de passe</label>
           <input className="form-control" type="password" id="password" onChange={(e) => handleChange(e)} value={user.password} name="password" />
         </div>
+        {error.password && <div className="text-danger mb-2">{error.password}</div>}
         <button className="btn btn-primary mb-2" type="submit" >Se connecter</button>
         {error.allFields && <div className="text-danger mb-2">{error.allFields}</div>}
       </form>

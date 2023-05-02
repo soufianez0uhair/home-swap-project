@@ -9,39 +9,11 @@ import House from '../assets/images/NewHouse_SA_Photo_01.jpg';
 import Trust from '../assets/images/265575_00_2x.jpg';
 import ReduceCosts from '../assets/images/img-cost-reduction-approach.png';
 
-function Home() {
-  const [swapSearch, setSwapSearch] = useState({
-    originalCity: '',
-    targetedCity: '',
-    startDate: '',
-    endDate: ''
-  });
-
-  const [rentSearch, setRentSearch] = useState({
-    targetedCity: '',
-    startDate: '',
-    endDate: ''
-  })
-
-  function handleChange(e, searchType) {
-    const {name, value} = e.target;
-
-    if(searchType === 'swap') {
-      setSwapSearch({
-        ...swapSearch,
-        [name]: value
-      });
-    } else {
-      setRentSearch({
-        ...rentSearch,
-        [name]: value
-      });
-    }
-  }
+function Home({swapSearch, rentSearch, handleChange, isSwap, setIsSwap}) {
 
   return (
     <>
-      <Hero handleChange={handleChange} swapSearch={swapSearch} rentSearch={rentSearch} />
+      <Hero setIsSwap={setIsSwap} isSwap={isSwap} handleChange={handleChange} swapSearch={swapSearch} rentSearch={rentSearch} />
       <section className="why d-flex flex-column align-items-center mb-5">
         <h1 className="fw-bold mb-5" >Why choose swapping?</h1>
         <p className="fs-5 w-75 text-center" >Home swapping allows you to travel like a local, save money on accommodations, and experience new destinations in a unique and authentic way.</p>
