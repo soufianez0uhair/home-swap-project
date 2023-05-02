@@ -11,6 +11,7 @@ import SignInForm from "./components/SignInForm";
 import Home from "./pages/Home";
 import Header from "./layout/Header";
 import SearchResults from "./pages/SearchResults";
+import AddAccommodation from "./pages/AddAccommodation";
 
 function App() {
   const user = useSelector(state => selectUser(state));
@@ -54,6 +55,7 @@ function App() {
         <Route path="/user/signin" element={!user ? <AuthSplitScreen img={SignUpImg} child={SignInForm} /> : <Navigate to="/" />} />
         <Route path="/" element={<Home isSwap={isSwap} setIsSwap={setIsSwap} swapSearch={swapSearch} rentSearch={rentSearch} handleChange={handleChange} />} />
         <Route path="/search/results/:isSwap/:originalCity/:targetedCity/:startDate/:endDate" element={<SearchResults isSwap={isSwap} swapSearch={swapSearch} rentSearch={rentSearch} />} />
+        <Route path="/accommodations/add" element={user ? <AddAccommodation /> : <Navigate to="/" />} />
       </Routes>
     </main>
   </Router>

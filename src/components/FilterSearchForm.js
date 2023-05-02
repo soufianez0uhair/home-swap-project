@@ -35,23 +35,9 @@ import { useNavigate } from 'react-router-dom';
     }
 
     return (
-      <form className="form-group d-inline-flex align-items-center rounded-pill border overflow-hidden p-2" method="get">
-  <div className="input-group">
-    <input name="originalCity" className="form-control border-0" style={{border: "none", outline: "none"}} type="text" placeholder="Where your home from?" />
-    <button className="input-group-text border-0" type="button"><i className="bi bi-arrow-right"></i></button>
-    <input name="targetedCity" className="form-control border-0" style={{width: "9rem", border: "none", outline: "none"}} type="text" placeholder="Where to?" />
-    <input name="startDate" className="form-control border-0" min={new Date().toISOString().split("T")[0]} max={new Date(new Date().setFullYear(new Date().getFullYear()+1)).toISOString().split("T")[0]} type="date" />
-    <input name="endDate" className="form-control border-0" min={new Date().toISOString().split("T")[0]} type="date" />
-    <select className="form-select" multiple>
-      <option>Apple</option>
-      <option>Banana</option>
-      <option>Orange</option>
-      <option>Grape</option>
-      <option>Strawberry</option>
-    </select>
-  </div>
-  <button type="submit" className="btn btn-primary"><i className="bi bi-search"></i></button>
-</form>
+      <form className="form-group">
+        <input type="text" className="form-input" placeholder="where your home from?" />
+      </form>
 
     )
 }
