@@ -113,7 +113,7 @@ function SignUpForm() {
         password2: 'Les mots de passe doivent correspondre.',
       })
     } else {
-      const url = 'http://homeswaper2023.000webhostapp.com/signup.php';
+      const url = 'http://localhost:8383/projet-home-swap/server_last/signup.php';
 
       const userKeysArray = Object.keys(user);
       let data = new FormData();
@@ -124,14 +124,15 @@ function SignUpForm() {
       await axios.post(url, data)
         .then(res => {
         // res = JSON.parse(res);
-        console.log(res.data);
-        if(res.data.error) {
+        const resObj = JSON.parse(JSON.stringify(res));
+        console.log(res, resObj);
+        if(resObj.data.error) {
           setError({
-            ...res.data.error
+            ...resObj.data.error
           });
         } else {
           try {
-            dispatch(auth(res.data));
+            dispatch(auth(resObj.data));
             navigate('/');
           } catch(e) {
             alert(e.message);
