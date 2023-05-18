@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const HomeList = ({ homes }) => {
-  const [selectedHome, setSelectedHome] = useState(null);
-
-  const handleClick = (home) => {
-    setSelectedHome(home);
-  };
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -15,7 +12,7 @@ const HomeList = ({ homes }) => {
           <Col key={home.accommodation_id} sm={6} md={4} lg={3}>
             <Card
               className="mb-3"
-              onClick={() => handleClick(home)}
+              onClick={() => navigate(`/accommodations/${home.accommodation_id}`)}
               style={{ cursor: 'pointer' }}
             >
               <Card.Body>
@@ -33,21 +30,6 @@ const HomeList = ({ homes }) => {
           </Col>
         ))}
       </Row>
-      {selectedHome && (
-        <div className="mt-3">
-          <h4>{selectedHome.title}</h4>
-          <p>{selectedHome.description}</p>
-          <p>City ID: {selectedHome.city_id}</p>
-          <p>Type: {selectedHome.type}</p>
-          <p>Purpose: {selectedHome.purpose}</p>
-          <p>Rooms number: {selectedHome.rooms_number}</p>
-          <p>Beds number: {selectedHome.beds_number}</p>
-          <p>Bathrooms number: {selectedHome.bathrooms_number}</p>
-          <p>Dimension: {selectedHome.dimension}</p>
-          <p>Floor: {selectedHome.floor}</p>
-          <p>Amenities: {selectedHome.amenities}</p>
-        </div>
-      )}
     </Container>
   );
 };

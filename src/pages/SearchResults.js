@@ -48,7 +48,6 @@ function SearchResults() {
 
   useEffect(() => {
     submitForm();
-    console.log(1);
   }, [filters])
 
   function handleChange(e) {
@@ -61,8 +60,6 @@ function SearchResults() {
       [name]: value
     })
   }
-
-  console.log(filters);
 
   return (
     <div style={{paddingTop: '7rem'}} className="px-4" >

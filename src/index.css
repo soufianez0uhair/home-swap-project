@@ -2,4 +2,38 @@
   color: rgb(13, 110, 253);
 }
 
+.HomeDescriptionEl {
+  display: flex;
+  flex-direction: column;
+}
+
+.HomeDescription {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.HomeSwapForm {
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 1rem;
+}
+.HomeSwapForm__group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.HomeSwapForm__date {
+  appearance: none;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 16px;
+  color: #333333;
+}
+
 /*# sourceMappingURL=index.css.map */

@@ -1,0 +1,83 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Container, Form, Row, Col, Button, Badge } from "react-bootstrap";
+import axios from 'axios';
+import { APIBASEURL } from '../helpers/sharedVariables';
+import {RxDimensions} from 'react-icons/rx';
+import {MdMeetingRoom} from 'react-icons/md';
+import {IoBed} from 'react-icons/io5';
+import HomeDescriptionEl from '../components/HomeDescriptionEl';
+import HomeSwapRentForm from '../components/HomeSwapForm';
+
+function AccommodationPage() {
+  const { id } = useParams(); // Assuming you have a route parameter for the accommodation ID
+  
+  const [accommodation, setAccommodation] = useState(null);
+  const [error, setError] = useState(null);
+  // Fetch the accommodation data based on the ID or use any other method to retrieve the data
+  const getAccommodationById = async () => {
+    await axios.post(APIBASEURL + 'get_accommodation_by_id.php', JSON.stringify({accommodation_id: Number(id)}))
+      .then(res => {
+        setAccommodation(res.data.accommodation_data);
+      })
+      .catch((e) => setError({...error, 'fetchingError': e.message}))
+  }
+  useEffect(() => {
+    getAccommodationById();
+  }, [])
+  // Example accommodation data
+  const [accoAmenities, setAccoAmenities] = useState(null);
+  useEffect(() => {
+    if(accommodation && accommodation.amenities) {
+      setAccoAmenities(accommodation.amenities.split(','));
+      setIsSwap(accommodation.purpose === 'rent' ? false : true);
+    }
+  }, [accommodation]);
+
+  const amenities = [{name: "Wifi"}, {name: "Washing machine"}, {name: "Pool"}, {name: "Garden"}, {name: "Netflix"}, {name: "Dishwasher"}, {name: "Car swap"}, {name: "TV"}, {name: "Cigarette"}, {name: "Domesticated animals"}, {name: "Plants"}, {name: "Air Conditioner"}];
+
+  const [isSwap, setIsSwap] = useState(false);
+
+  return (
+    <>
+      {accommodation && <div className="container" style={{marginTop: '7rem'}}>
+      <div className="row" >
+        <div className="col-md-8" style={{display: 'flex', flexDirection: 'column', gap: '.5rem'}}>
+          <h2>{accommodation.title} - Agadir</h2>
+          <h4>Description</h4>
+          <p>{accommodation.description}</p>
+          
+          <h4>Adresse - {accommodation.adress}</h4>
+          <h3>Qu'est ce que vous allez trouver?</h3>
+          <div className="HomeDescription mb-3">
+            <HomeDescriptionEl name="Dimension" value={accommodation.dimension} icon={RxDimensions} />
+            <HomeDescriptionEl name="Chambre" value={accommodation.rooms_number} icon={MdMeetingRoom} />
+            <HomeDescriptionEl name="Lit" value={accommodation.beds_number} icon={IoBed} />
+            <HomeDescriptionEl name="Dimension" value={accommodation.dimension} icon={RxDimensions} />
+          </div>
+          <h4>Amenities</h4>
+          <div className="AmenitiesList">
+            {accoAmenities &&
+              amenities.map(amenity => (
+                <span key={amenity.name} className="mr-2">
+              {accoAmenities.includes(amenity.name) ? (
+                <Badge bg="success" pill variant="light">{amenity.name}</Badge>
+              ) : (
+                <Badge bg="secondary" pill variant="light">{amenity.name}</Badge>
+              )}
+            </span>
+              ))
+            }
+          </div>
+        </div>
+        <div className="col-md-4">
+          // ? instead of &&
+          {isSwap && <HomeSwapRentForm purpose={accommodation.purpose} accommodationId={accommodation.accommodation_id} points={accommodation.points} />}
+        </div>
+      </div>
+    </div>}
+    </>
+  );
+};
+
+export default AccommodationPage;

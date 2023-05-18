@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Header from "./layout/Header";
 import SearchResults from "./pages/SearchResults";
 import AddAccommodation from "./pages/AddAccommodation";
+import AccommodationPage from "./pages/AccommodationPage";
 
 function App() {
   const user = useSelector(state => selectUser(state));
@@ -74,6 +75,7 @@ function App() {
         <Route path="/" element={<Home isSwap={isSwap} setIsSwap={setIsSwap} swapSearch={swapSearch} rentSearch={rentSearch} handleChange={handleChange} />} />
         <Route path="/search/results/:purpose/:original_city_id/:targeted_city_id/:type/:startDate/:endDate" element={<SearchResults isSwap={isSwap} swapSearch={swapSearch} rentSearch={rentSearch} />} />
         <Route path="/accommodations/add" element={user ? <AddAccommodation /> : <Navigate to="/" />} />
+        <Route path="/accommodations/:id" element={<AccommodationPage />} />
       </Routes>
     </main>
   </Router>
