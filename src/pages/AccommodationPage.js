@@ -7,7 +7,7 @@ import {RxDimensions} from 'react-icons/rx';
 import {MdMeetingRoom} from 'react-icons/md';
 import {IoBed} from 'react-icons/io5';
 import HomeDescriptionEl from '../components/HomeDescriptionEl';
-import HomeSwapRentForm from '../components/HomeSwapForm';
+import HomeSwapRentForm from '../components/HomeSwapRentForm';
 
 function AccommodationPage() {
   const { id } = useParams(); // Assuming you have a route parameter for the accommodation ID
@@ -30,20 +30,43 @@ function AccommodationPage() {
   useEffect(() => {
     if(accommodation && accommodation.amenities) {
       setAccoAmenities(accommodation.amenities.split(','));
-      setIsSwap(accommodation.purpose === 'rent' ? false : true);
     }
   }, [accommodation]);
 
   const amenities = [{name: "Wifi"}, {name: "Washing machine"}, {name: "Pool"}, {name: "Garden"}, {name: "Netflix"}, {name: "Dishwasher"}, {name: "Car swap"}, {name: "TV"}, {name: "Cigarette"}, {name: "Domesticated animals"}, {name: "Plants"}, {name: "Air Conditioner"}];
 
-  const [isSwap, setIsSwap] = useState(false);
+  console.log(accommodation);
 
+  const [cities, setCities] = useState([]);
+
+  useEffect(() => {
+    fetch(APIBASEURL + 'get_cities.php')
+              .then(res => res.json())
+              .then(data => {
+                setCities(data.cities)
+              })
+              .catch((e) => {
+                  setError(e.message);
+              });
+    }, [])
+
+    const [city, setCity] = useState(null);
+
+    useEffect(() => {
+      if(cities && accommodation && cities.length > 0) {
+        setCity(cities.find(city => city.city_id === accommodation.city_id).name);
+      }
+    }, [cities, accommodation])
+    
   return (
     <>
       {accommodation && <div className="container" style={{marginTop: '7rem'}}>
-      <div className="row" >
+      <div className="row AccommodationPage__img">
+        <img src={APIBASEURL + accommodation.media[Math.floor(Math.random() * accommodation.media.length)]} className="col-12" alt="" />
+      </div>
+      <div className="row mt-4" >
         <div className="col-md-8" style={{display: 'flex', flexDirection: 'column', gap: '.5rem'}}>
-          <h2>{accommodation.title} - Agadir</h2>
+          <h2>{accommodation.title} - {city}</h2>
           <h4>Description</h4>
           <p>{accommodation.description}</p>
           
@@ -71,8 +94,7 @@ function AccommodationPage() {
           </div>
         </div>
         <div className="col-md-4">
-          // ? instead of &&
-          {isSwap && <HomeSwapRentForm purpose={accommodation.purpose} accommodationId={accommodation.accommodation_id} points={accommodation.points} />}
+          {accommodation && <HomeSwapRentForm purpose={accommodation.purpose} accommodation_id={accommodation.accommodation_id} points={accommodation.points} />}
         </div>
       </div>
     </div>}

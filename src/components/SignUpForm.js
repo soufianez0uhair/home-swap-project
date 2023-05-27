@@ -5,6 +5,7 @@ import axios from "axios";
 import {useDispatch} from 'react-redux';
 import { auth } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import { APIBASEURL } from "../helpers/sharedVariables";
 
 function SignUpForm() {
   const dispatch = useDispatch();
@@ -113,7 +114,7 @@ function SignUpForm() {
         password2: 'Les mots de passe doivent correspondre.',
       })
     } else {
-      const url = 'http://localhost:8383/projet-home-swap/server_last/signup.php';
+      const url = 'http://localhost:8383/projet-home-swap/server3/signup.php';
 
       const userKeysArray = Object.keys(user);
       let data = new FormData();
@@ -121,7 +122,31 @@ function SignUpForm() {
         data.append(userKeysArray[i], user[userKeysArray[i]]);
       }
 
-      await axios.post(url, data)
+      await axios.post(APIBASEURL + 'signup.php', JSON.stringify(user))
+      .then(res => {
+        if(res.data.error) {
+          setError({
+            ...res.data.error
+          })
+        } else {
+          console.log(res.data);
+          try {
+            dispatch(auth(res.data));
+            navigate('/');
+          } catch(e) {
+            setError({
+              
+            })
+          }
+        }
+      })
+      .catch(e => {
+            setError({
+
+            })
+      })
+
+      /* await axios.post(url, data)
         .then(res => {
         // res = JSON.parse(res);
         const resObj = JSON.parse(JSON.stringify(res));
@@ -138,7 +163,7 @@ function SignUpForm() {
             alert(e.message);
           }
         }
-    })
+    }) */
     }
   }
 

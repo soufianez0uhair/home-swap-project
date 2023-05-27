@@ -4,6 +4,7 @@ import axios from "axios";
 import {useDispatch} from 'react-redux';
 import { auth } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import { APIBASEURL } from "../helpers/sharedVariables";
 
 function SignInForm() {
   const dispatch = useDispatch();
@@ -45,7 +46,30 @@ function SignInForm() {
     } else {
       const apiBaseURL = 'http://localhost:8383/projet-home-swap/server_last/login.php';
 
-      const userKeysArray = Object.keys(user);
+      await axios.post(APIBASEURL + 'login.php', JSON.stringify(user))
+      .then(res => {
+        if(res.data.error) {
+          setError({
+            ...res.data.error
+          })
+        } else {
+          try {
+            dispatch(auth(res.data));
+            navigate('/');
+          } catch(e) {
+            setError({
+              
+            })
+          }
+        }
+      })
+      .catch(e => {
+            setError({
+
+            })
+      })
+
+      /* const userKeysArray = Object.keys(user);
       let data = new FormData();
       for(let i = 0; i < userKeysArray.length; i++) {
         data.append(userKeysArray[i], user[userKeysArray[i]]);
@@ -65,7 +89,7 @@ function SignInForm() {
               alert(e.message);
             }
           }
-      })
+      }) */
     }
   }
 

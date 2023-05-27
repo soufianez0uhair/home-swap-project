@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 import Multiselect from 'multiselect-react-dropdown';
+import { APIBASEURL } from "../helpers/sharedVariables";
 
 function AddAccommodation() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function AddAccommodation() {
   const [types, setTypes] = useState([]);
 
   const getTypes = async () => {
-    await axios.get(apiBaseURL + '/types')
+    await axios.get(APIBASEURL + '/types')
       .then((res) => {
         setTypes(res.data.types);
       })
@@ -104,8 +105,8 @@ function AddAccommodation() {
 
   const submitForm = async (e, accommodation) => {
     e.preventDefault();
-    await axios.post(apiBaseURL + 'add_accommodation.php', {
-      user_id: 13, // hardcoded for now, replace with your actual user ID
+    await axios.post(APIBASEURL + 'add_accommodation.php', {
+       // hardcoded for now, replace with your actual user ID
       type: accommodation.type,
       title: accommodation.title,
       description: accommodation.description,
@@ -121,9 +122,11 @@ function AddAccommodation() {
       amenities: accommodation.amenities,
       purpose: accommodation.purpose || '', // set default value to empty string if null
       images: accommodation.images,
+      token: JSON.parse(localStorage.getItem('token'))
     }, {
       headers : {
-          'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+          // 'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+          'Content-Type': 'multipart/form-data'
       }
   })
     .then(res => {
