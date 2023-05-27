@@ -18,7 +18,7 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
     token: JSON.parse(localStorage.getItem('token'))
   });
 
-  const [dates, setDates] = useState([{start_date: '2023-05-27', end_date: '2023-05-30'}]);
+  const [dates, setDates] = useState([]);
 
   const getDates = async () => {
     await axios.get(APIBASEURL + '', {accommodation_id: accommodation_id})
@@ -96,7 +96,7 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
     <form className="HomeSwapRentForm">
       <div className="HomeSwapRentForm__button">
       </div>
-      {points && <h1 className="HomeSwapRentForm__points text-primary">{points} <span>points/night</span></h1>}
+      {points && <h3 className="HomeSwapRentForm__points text-primary">{points} <span>points/night</span></h3>}
       <div className="HomeSwapRentForm__group">
         <DatePicker
           onChange={date => changeStartDate(date)}
