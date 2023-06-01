@@ -18,13 +18,28 @@ function AccommodationPage() {
   const getAccommodationById = async () => {
     await axios.post(APIBASEURL + 'get_accommodation_by_id.php', JSON.stringify({accommodation_id: Number(id)}))
       .then(res => {
+        console.log(res);
         setAccommodation(res.data.accommodation_data);
       })
       .catch((e) => setError({...error, 'fetchingError': e.message}))
   }
+  /* const getAccommodationById = async () => {
+    await axios.get(APIBASEURL + 'get_accommodation_by_id.php', {
+        params: {
+          accommodation_id: Number(id)
+        }
+      })
+      .then(res => {
+        console.log(res);
+        setAccommodation(res.data.accommodation_data);
+      })
+      .catch((e) => setError({...error, 'fetchingError': e.message}))
+  } */
+  
   useEffect(() => {
     getAccommodationById();
   }, [])
+  console.log(error);
   // Example accommodation data
   const [accoAmenities, setAccoAmenities] = useState(null);
   useEffect(() => {

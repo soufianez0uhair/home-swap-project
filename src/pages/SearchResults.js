@@ -21,20 +21,14 @@ function SearchResults() {
     }
   }
 
-  const [filters, setFilters] = useState({...params, city_id: Number(params.city_id), type: params.type, amenities: [], seen_accommodations: []});
+  const [filters, setFilters] = useState({...params, city_id: Number(params.city_id), type_name: params.type, amenities: [], seen_accommodations: []});
 
   const apiBaseURL = 'http://localhost:8383/projet-home-swap/server_last/';
 
-  const getAccommodations = async () => {
-    await axios.post(APIBASEURL + 'get_accommodation.php', filters)
-      .then(res => setAccommodations(res.data))
-      .catch((e) => setError({...error, 'fetchingError': e.message}))
-  }
-
-  console.log(error);
+  console.log(accommodations, error);
 
   const submitForm = async () => {
-    await axios.post(apiBaseURL + 'get_accommodation.php', filters, {
+    await axios.post(apiBaseURL + 'get_accommodations.php', filters, {
       headers : {
           'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
       }
@@ -50,7 +44,12 @@ function SearchResults() {
   }
 
   useEffect(() => {
-    submitForm();
+    const getAccommodations = async () => {
+      await axios.post(APIBASEURL + 'get_accommodations.php', JSON.stringify(filters))
+        .then(res => setAccommodations(res.data.accommodations))
+        .catch((e) => setError({...error, 'fetchingError': e.message}))
+    }
+    getAccommodations();
   }, [filters])
 
   function handleChange(e) {

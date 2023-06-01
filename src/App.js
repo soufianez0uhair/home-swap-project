@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "./redux/userSlice";
+import { selectAdmin } from "./redux/adminSlice";
 import { useEffect, useState } from "react";
 
 import AuthSplitScreen from "./layout/AuthSplitScreen";
@@ -13,6 +14,7 @@ import Header from "./layout/Header";
 import SearchResults from "./pages/SearchResults";
 import AddAccommodation from "./pages/AddAccommodation";
 import AccommodationPage from "./pages/AccommodationPage";
+import AdminSignIn from "./pages/AdminSignIn";
 
 function App() {
   const user = useSelector(state => selectUser(state));
@@ -36,6 +38,8 @@ function App() {
 
   }
 
+  const admin = useSelector(state => selectAdmin(state));
+
   return <Router>
     <main className="App">
       <Header />
@@ -46,6 +50,7 @@ function App() {
         <Route path="/search/results/:city_id/:type/:start_date/:end_date" element={<SearchResults swapSearch={swapSearch} />} />
         <Route path="/accommodations/add" element={user ? <AddAccommodation /> : <Navigate to="/" />} />
         <Route path="/accommodations/:id" element={<AccommodationPage />} />
+        <Route path="/admin/signin" element={!admin ? <AdminSignIn /> : <Navigate to="/" />} />
       </Routes>
     </main>
   </Router>

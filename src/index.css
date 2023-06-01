@@ -1,3 +1,7 @@
+.header-margin {
+  margin-top: 72px;
+}
+
 .houseOption:hover {
   color: rgb(13, 110, 253);
 }
@@ -55,6 +59,13 @@
 .AccommodationPage__img {
   height: 60vh;
   overflow: hidden;
+}
+
+.AdminSignIn {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const HomeList = ({ homes }) => {
   const navigate = useNavigate();
 
+  console.log(homes);
   return (
     <Container>
       <Row>
@@ -21,7 +22,6 @@ const HomeList = ({ homes }) => {
                 <Card.Subtitle className="mb-2 text-muted">
                   {home.type}
                 </Card.Subtitle>
-                <Card.Text >{home.description.length > 90 ? home.description.slice(0, 90) + '...' : home.description}</Card.Text>
               </Card.Body>
               <Card.Footer>
                 <small className="text-muted">{home.adress}</small>
