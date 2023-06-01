@@ -11,15 +11,14 @@ function AddAccommodation() {
   const [accommodation, setAccommodation] = useState({
     title: '',
     description: '',
-    dimension: null, // 0
+    size: null, // 0
     city_id: null,
-    adress: '',
+    address: '',
     rooms_number: null, // 0
     beds_number: null, // 0
     floor: null, // ? 0
     bathrooms_number: null, // 0
     amenities: [],
-    purpose: '',
     images: null,
     type: null,
     latitude: 0,
@@ -31,17 +30,27 @@ function AddAccommodation() {
   const [types, setTypes] = useState([]);
 
   const getTypes = async () => {
-    await axios.get(APIBASEURL + '/types')
+    await axios.get(APIBASEURL + '/get_accommodations_types.php')
       .then((res) => {
-        setTypes(res.data.types);
+        setTypes(res.data.accommodations_types);
       })
   }
 
-  useEffect(() => {
-    // getTypes();
-  })
+  const [amenities, setAmenities] = useState(null)
 
-  const amenities = [{name: "Wifi"}, {name: "Washing machine"}, {name: "Pool"}, {name: "Garden"}, {name: "Netflix"}, {name: "Dishwasher"}, {name: "Car swap"}, {name: "TV"}, {name: "Cigarette"}, {name: "Domesticated animals"}, {name: "Plants"}, {name: "Air Conditioner"}];
+  const getAmenities = async () => {
+    await axios.get(APIBASEURL + '/get_amenities.php')
+      .then((res) => {
+        setAmenities(res.data.amenities);
+      })
+  }
+
+  console.log(accommodation);
+  
+  useEffect(() => {
+    getTypes();
+    getAmenities();
+  }, [])
 
   const addAmenity = (amenityName) => {
     setAccommodation({
@@ -56,8 +65,6 @@ function AddAccommodation() {
       amenities: accommodation.amenities.filter(amenity => amenity !== amenityName)
     })
   }
-
-  const purposes = ['swap', 'rent', 'both'];
 
   function handleChange(e) {
     let {name, value} = e.target;
@@ -113,7 +120,7 @@ function AddAccommodation() {
       latitude: accommodation.latitude,
       longitude: accommodation.longitude,
       city_id: accommodation.city_id,
-      adress: accommodation.adress,
+      address: accommodation.address,
       rooms_number: accommodation.rooms_number,
       beds_number: accommodation.beds_number,
       floor: accommodation.floor || 0, // set default value to 0 if null
@@ -168,32 +175,22 @@ function AddAccommodation() {
         <div className="form-group mb-3">
           <select value={accommodation.type} onChange={(e) => handleChange(e)} name="type" class="form-select" id="type" >
             <option value="">Please select the type of your accommodation</option>
-            <option value="studio">studio</option>
-            <option value="villa">villa</option>
-            <option value="apartment">apartment</option>
+            {
+              types.map(type => <option value={type}>{type}</option>)
+            }
           </select>
         </div>
         <div className="form-group mb-3">
           <label for="images">Upload your accommodation images</label>
           <input files={accommodation.images} onChange={(e) => handleChange(e)} name="images" type="file" class="form-control" id="images" multiple/>
         </div>
-        <div className="form-group mb-3">
-          <select value={accommodation.purpose} onChange={(e) => handleChange(e)} name="purpose" class="form-select" id="purpose" >
-            <option value="">Is it for swap, rent, or both?</option>
-            {
-              purposes.map(purpose => (
-                <option value={purpose}>{purpose}</option>
-              ))
-            }
-          </select>
-        </div>
         <div class="form-group mb-3">
           <label for="description">Description</label>
           <textarea value={accommodation.description} onChange={(e) => handleChange(e)} name="description" class="form-control" id="description" placeholder="Enter description"></textarea>
         </div>
         <div class="form-group mb-3">
-          <label for="dimension">Size</label>
-          <input value={accommodation.dimension} onChange={(e) => handleChange(e)} name="dimension" type="text" class="form-control" id="dimension" placeholder="Enter size" />
+          <label for="size">Size</label>
+          <input value={accommodation.size} onChange={(e) => handleChange(e)} name="size" type="text" class="form-control" id="size" placeholder="Enter size" />
         </div>
         <div className="form-group mb-3">
           <select value={accommodation.city_id} onChange={(e) => handleChange(e)} name="city_id" class="form-select" id="city_id" >
@@ -207,7 +204,7 @@ function AddAccommodation() {
         </div>
         <div class="form-group mb-3">
           <label for="address">Address</label>
-          <input value={accommodation.adress} onChange={(e) => handleChange(e)} name="adress" type="text" class="form-control" id="address" placeholder="Enter address" />
+          <input value={accommodation.address} onChange={(e) => handleChange(e)} name="address" type="text" class="form-control" id="address" placeholder="Enter address" />
         </div>
         <div class="form-group mb-3">
           <label for="rooms">Rooms Number</label>
@@ -218,23 +215,19 @@ function AddAccommodation() {
           <input value={accommodation.beds_number} onChange={(e) => handleChange(e)} name="beds_number" type="number" class="form-control" id="beds" placeholder="Enter beds number" />
         </div>
         <div class="form-group mb-3">
-          <label for="floor">Floor</label>
-          <input value={accommodation.floor} onChange={(e) => handleChange(e)} name="floor" type="number" class="form-control" id="floor" placeholder="Enter floor" />
-        </div>
-        <div class="form-group mb-3">
           <label for="bathrooms">Bathrooms Number</label>
           <input value={accommodation.bathrooms_number} onChange={(e) => handleChange(e)} name="bathrooms_number" type="number" class="form-control" id="bathrooms" placeholder="Enter bathrooms number" />
         </div>
         <div className="form-group mb-3">
           <label for="bathrooms">Amenities</label>
-          <Multiselect
+          {amenities && <Multiselect
             displayValue="name"
             options={amenities}
             onKeyPressFn={function noRefCheck(){}}
             onSearch={function noRefCheck(){}}
             onSelect={(amenities, amenity) => addAmenity(amenity.name)}
             onRemove={(amenities, amenity) => removeAmenity(amenity.name)}
-          />
+          />}
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

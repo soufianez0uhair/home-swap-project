@@ -9,11 +9,11 @@ import House from '../assets/images/NewHouse_SA_Photo_01.jpg';
 import Trust from '../assets/images/265575_00_2x.jpg';
 import ReduceCosts from '../assets/images/img-cost-reduction-approach.png';
 
-function Home({swapSearch, rentSearch, handleChange, isSwap, setIsSwap}) {
+function Home({swapSearch, handleChange}) {
 
   return (
     <>
-      <Hero setIsSwap={setIsSwap} isSwap={isSwap} handleChange={handleChange} swapSearch={swapSearch} rentSearch={rentSearch} />
+      <Hero handleChange={handleChange} swapSearch={swapSearch} />
       <section className="why d-flex flex-column align-items-center mb-5">
         <h1 className="fw-bold mb-5" >Why choose swapping?</h1>
         <p className="fs-5 w-75 text-center" >Home swapping allows you to travel like a local, save money on accommodations, and experience new destinations in a unique and authentic way.</p>

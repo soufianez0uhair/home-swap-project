@@ -18,53 +18,23 @@ function App() {
   const user = useSelector(state => selectUser(state));
 
   const [swapSearch, setSwapSearch] = useState({
-    original_city_id: null,
-    targeted_city_id: null,
-    startDate: '',
-    endDate: '',
-    type: '',
-    purpose: ''
+    city_id: null,
+    start_date: '',
+    end_date: '',
+    type: ''
   });
-
-  const [rentSearch, setRentSearch] = useState({
-    targeted_city_id: null,
-    startDate: '',
-    endDate: ''
-  });
-
-  const [isSwap, setIsSwap] = useState(true);
 
   function handleChange(e) {
     let {name, value} = e.target;
 
-    value = name === 'original_city_id' || name === 'targeted_city_id' ? Number(value) : value; 
+    value = name === 'city_id' ? Number(value) : value; 
 
-    if(isSwap) {
-      setSwapSearch({
-        ...swapSearch,
-        [name]: value
-      });
-    } else {
-      setRentSearch({
-        ...rentSearch,
-        [name]: value
-      });
-    }
+    setSwapSearch({
+      ...swapSearch,
+      [name]: value
+    })
+
   }
-
-  useEffect(() => {
-    if(isSwap) {
-      setSwapSearch({
-        ...swapSearch,
-        purpose: 'swap'
-      })
-    } else {
-      setSwapSearch({
-        ...swapSearch,
-        purpose: 'rent'
-      })
-    }
-  }, [isSwap]);
 
   return <Router>
     <main className="App">
@@ -72,8 +42,8 @@ function App() {
       <Routes>
         <Route path="/user/signup" element={!user ? <AuthSplitScreen img={SignUpImg} child={SignUpForm} /> : <Navigate to="/" />} />
         <Route path="/user/signin" element={!user ? <AuthSplitScreen img={SignUpImg} child={SignInForm} /> : <Navigate to="/" />} />
-        <Route path="/" element={<Home isSwap={isSwap} setIsSwap={setIsSwap} swapSearch={swapSearch} rentSearch={rentSearch} handleChange={handleChange} />} />
-        <Route path="/search/results/:purpose/:original_city_id/:targeted_city_id/:type/:startDate/:endDate" element={<SearchResults isSwap={isSwap} swapSearch={swapSearch} rentSearch={rentSearch} />} />
+        <Route path="/" element={<Home swapSearch={swapSearch} handleChange={handleChange} />} />
+        <Route path="/search/results/:city_id/:type/:start_date/:end_date" element={<SearchResults swapSearch={swapSearch} />} />
         <Route path="/accommodations/add" element={user ? <AddAccommodation /> : <Navigate to="/" />} />
         <Route path="/accommodations/:id" element={<AccommodationPage />} />
       </Routes>

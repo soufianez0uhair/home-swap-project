@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 import FilterSearchForm from "../components/FilterSearchForm";
 import HomeList from "../components/HomeList";
+import { APIBASEURL } from "../helpers/sharedVariables";
 
 function SearchResults() {
   const [accommodations, setAccommodations] = useState(null)
@@ -15,20 +16,22 @@ function SearchResults() {
   const paramsKeys = Object.keys(params);
 
   for(let i = 0; i < paramsKeys.length; i++) {
-    if(params[paramsKeys[i]] === 'null') {
+    if(params[paramsKeys[i]] === 'undefined') {
       params[paramsKeys[i]] = '';
     }
   }
 
-  const [filters, setFilters] = useState({...params, targeted_city_id: Number(params.targeted_city_id), original_city_id: Number(params.original_city_id), purpose: params.purpose, type: 'villa', amenities: [], seen_accommodations: []});
+  const [filters, setFilters] = useState({...params, city_id: Number(params.city_id), type: params.type, amenities: [], seen_accommodations: []});
 
   const apiBaseURL = 'http://localhost:8383/projet-home-swap/server_last/';
 
   const getAccommodations = async () => {
-    await axios.post(apiBaseURL + 'get_accommodation.php', filters)
+    await axios.post(APIBASEURL + 'get_accommodation.php', filters)
       .then(res => setAccommodations(res.data))
       .catch((e) => setError({...error, 'fetchingError': e.message}))
   }
+
+  console.log(error);
 
   const submitForm = async () => {
     await axios.post(apiBaseURL + 'get_accommodation.php', filters, {
@@ -53,7 +56,7 @@ function SearchResults() {
   function handleChange(e) {
     let {name, value} = e.target;
 
-    value = name === 'original_city_id' || name === 'targeted_city_id' ? Number(value) : value; 
+    value = name === 'city_id' ? Number(value) : value; 
 
     setFilters({
       ...filters,

@@ -1,10 +1,20 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import {HiSearchCircle} from 'react-icons/hi';
-import {IoIosSwap} from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import { APIBASEURL } from '../helpers/sharedVariables';
 
   function SwapSearchForm({swapSearch, handleChange}) {
     const navigate = useNavigate();
+
+    const [types, setTypes] = useState([]);
+
+    const getTypes = async () => {
+      await axios.get(APIBASEURL + '/get_accommodations_types.php')
+        .then((res) => {
+          setTypes(res.data.accommodations_types);
+        })
+    }
 
     const getTodayDate = () => {
       const date = new Date();
@@ -23,17 +33,19 @@ import { useNavigate } from 'react-router-dom';
     function search(e) {
       e.preventDefault();
 
-      navigate(`/search/results/${swapSearch.purpose}/${swapSearch.original_city_id ? swapSearch.original_city_id : 'undefined'}/${swapSearch.targeted_city_id ? swapSearch.targeted_city_id : 'undefined'}/${swapSearch.type ? swapSearch.type : "undefined"}/${swapSearch.startDate ? swapSearch.startDate : "undefined"}/${swapSearch.endDate ? swapSearch.endDate : "undefined"}`);
+      navigate(`/search/results/${swapSearch.city_id ? swapSearch.city_id : 'undefined'}/${swapSearch.type ? swapSearch.type : "undefined"}/${swapSearch.start_date ? swapSearch.start_date : "undefined"}/${swapSearch.end_date ? swapSearch.end_date : "undefined"}`);
     }
 
     const apiBaseURL = 'http://localhost:8383/projet-home-swap/server_last/'
 
     const [cities, setCities] = useState([]);
 
+    console.log(swapSearch)
+
     const [error, setError] = useState(null);
 
     useEffect(() => {
-      fetch(apiBaseURL + 'get_cities.php')
+      fetch(APIBASEURL + 'get_cities.php')
               .then(res => res.json())
               .then(data => {
                 setCities(data.cities)
@@ -41,20 +53,12 @@ import { useNavigate } from 'react-router-dom';
               .catch((e) => {
                   setError(e.message);
               });
+      getTypes();
     }, [])
 
     return (
       <form onSubmit={(e) => search(e)} className="d-inline-flex align-items-center rounded-pill border overflow-hidden p-2 mb-3" >
-        <select name="original_city_id" value={swapSearch.original_city_id} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
-            <option value="">Where your home from?</option>
-            {
-              cities.map(city => (
-                <option value={city.city_id}>{city.name}</option>
-              ))
-            }
-        </select>
-        <IoIosSwap />
-        <select name="targeted_city_id" value={swapSearch.targeted_city_id} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
+        <select name="city_id" value={swapSearch.city_id} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
             <option value="">Where to?</option>
             {
               cities.map(city => (
@@ -64,12 +68,12 @@ import { useNavigate } from 'react-router-dom';
         </select>
         <select name="type" value={swapSearch.type} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
             <option value="">type</option>
-            <option value="studio">studio</option>
-            <option value="villa">villa</option>
-            <option value="apartment">apartment</option>
+            {
+              types.map(type => <option value={type}>{type}</option> )
+            }
         </select>
-        <input name="startDate" value={swapSearch.startDate} onChange={(e) => handleChange(e)} min={getTodayDate()} max={swapSearch.endDate} className="border-0 me-1" type="date" />
-        <input name="endDate" value={swapSearch.endDate} onChange={(e) => handleChange(e)} min={swapSearch.startDate} className="border-0 me-1" type="date" />
+        <input name="start_date" value={swapSearch.start_date} onChange={(e) => handleChange(e)} min={getTodayDate()} max={swapSearch.end_date} className="border-0 me-1" type="date" />
+        <input name="end_date" value={swapSearch.end_date} onChange={(e) => handleChange(e)} min={swapSearch.start_date} className="border-0 me-1" type="date" />
         <HiSearchCircle onClick={(e) => search(e)} className="fs-2 text-primary" />
       </form>
     )
