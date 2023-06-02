@@ -93,8 +93,6 @@ function AdminSignIn() {
     }
   }
 
-  console.log(admin, error);
-
   return (
     <div className="AdminSignIn" >
     <form onSubmit={(e) => handleSubmit(e)} >

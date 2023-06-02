@@ -3,4 +3,14 @@
     display: flex;
     justify-content: center;
   }
+  &__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    &__showmore {
+      grid-column: 4 / 5;
+    }
+    &__action {
+      grid-column: 7 / 8;
+    }
+  }
 }

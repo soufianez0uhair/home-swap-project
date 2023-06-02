@@ -88,6 +88,16 @@
   display: flex;
   justify-content: center;
 }
+.UserManagement__buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.UserManagement__buttons__showmore {
+  grid-column: 4/5;
+}
+.UserManagement__buttons__action {
+  grid-column: 7/8;
+}
 
 .AccommodationPage__img {
   height: 60vh;
