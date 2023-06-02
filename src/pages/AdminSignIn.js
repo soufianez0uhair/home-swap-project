@@ -96,7 +96,7 @@ function AdminSignIn() {
   console.log(admin, error);
 
   return (
-    <div className="header-margin AdminSignIn" >
+    <div className="AdminSignIn" >
     <form onSubmit={(e) => handleSubmit(e)} >
     <h2 className="mb-3" >Welcome back!</h2>
   <div class="form-outline mb-4">

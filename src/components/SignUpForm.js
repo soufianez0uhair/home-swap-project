@@ -12,11 +12,11 @@ function SignUpForm() {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
-    prenom: '',
-    nom: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    telephone: '',
-    adresse: '',
+    phone: '',
+    address: '',
     password: '',
     password2: ''
   });
@@ -30,11 +30,11 @@ function SignUpForm() {
   };
 
   const [error, setError] = useState({
-    prenom: '',
-    nom: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    telephone: '',
-    adresse: '',
+    phone: '',
+    address: '',
     password: '',
     password2: '',
     allFields: ''
@@ -42,74 +42,74 @@ function SignUpForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if(!user.prenom || !user.nom || !user.email || !user.telephone || !user.adresse || !user.password || !user.password2) {
+    if(!user.first_name || !user.last_name || !user.email || !user.phone || !user.address || !user.password || !user.password2) {
       setError({
-        prenom: '',
-        nom: '',
+        first_name: '',
+        last_name: '',
         email: '',
-        telephone: '',
-        adresse: '',
+        phone: '',
+        address: '',
         password: '',
         password2: '',
         allFields: 'Veuillez remplir tous les champs.'
       })
-    } else if(!nameValidator(user.prenom)) {
+    } else if(!nameValidator(user.first_name)) {
       setError({
-        prenom: 'Veuillez utiliser votre vrai prénom.',
-        nom: '',
+        first_name: 'Veuillez utiliser votre vrai prélast_name.',
+        last_name: '',
         email: '',
-        telephone: '',
-        adresse: '',
+        phone: '',
+        address: '',
         password: '',
         password2: ''
       })
-    } else if(!nameValidator(user.nom)) {
+    } else if(!nameValidator(user.last_name)) {
       setError({
-        prenom: '',
-        nom: 'Veuillez utiliser votre vrai nom.',
+        first_name: '',
+        last_name: 'Veuillez utiliser votre vrai last_name.',
         email: '',
-        telephone: '',
-        adresse: '',
+        phone: '',
+        address: '',
         password: '',
         password2: ''
       })
     } else if(!emailValidator(user.email)) {
       setError({
-        prenom: '',
-        nom: '',
+        first_name: '',
+        last_name: '',
         email: 'Veuillez utiliser un email valide.',
-        telephone: '',
-        adresse: '',
+        phone: '',
+        address: '',
         password: '',
         password2: ''
       })
-    } else if(!phoneNumValidator(user.telephone)) {
+    } else if(!phoneNumValidator(user.phone)) {
       setError({
-        nom: '',
-        prenom: '',
+        last_name: '',
+        first_name: '',
         email: '',
-        telephone: 'Veuillez saisir un numero valide.',
-        adresse: '',
+        phone: 'Veuillez saisir un numero valide.',
+        address: '',
         password: '',
         password2: '',
       })
     } else if(!passwordValidator(user.password)) {
       setError({
-        nom: '',
-        prenom: '',
+        last_name: '',
+        first_name: '',
         email: '',
-        telephone: '',
-        adresse: '',
+        phone: '',
+        address: '',
         password: 'Le mot de passe doit contenir au moins 8 caractères, dont au moins une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.',
         password2: '',
       })
     } else if(user.password !== user.password2) {
       setError({
-        nom: '',
-        prenom: '',
+        last_name: '',
+        first_name: '',
         email: '',
-        telephone: '',
-        adresse: '',
+        phone: '',
+        address: '',
         password: '',
         password2: 'Les mots de passe doivent correspondre.',
       })
@@ -145,7 +145,6 @@ function SignUpForm() {
 
             })
       })
-
       /* await axios.post(url, data)
         .then(res => {
         // res = JSON.parse(res);
@@ -167,19 +166,21 @@ function SignUpForm() {
     }
   }
 
+  console.log(error, user);
+
   return (
     <div className="d-flex align-items-center justify-content-center py-4 px-3" style={{minHeight: "100vh"}} >
       <form className="row mx-auto g-3" onSubmit={(e) => handleSubmit(e)} >
         <h1>Créez votre compte!</h1>
         <div className="col-lg-6">
-          <label className="form-label" htmlFor="prenom" required>Prénom</label>
-          <input className="form-control" type="text" id="prenom" onChange={(e) => handleChange(e)} value={user.prenom} name="prenom" />
-          {error.prenom && <div className="text-danger">{error.prenom}</div>}
+          <label className="form-label" htmlFor="first_name" required>last_name</label>
+          <input className="form-control" type="text" id="first_name" onChange={(e) => handleChange(e)} value={user.first_name} name="first_name" />
+          {error.first_name && <div className="text-danger">{error.first_name}</div>}
         </div>
         <div className="col-lg-6">
-          <label className="form-label" htmlFor="nom">Nom</label>
-          <input className="form-control" type="text" id="nom" onChange={(e) => handleChange(e)} value={user.nom} name="nom" />
-          {error.nom && <div className="text-danger">{error.nom}</div>}
+          <label className="form-label" htmlFor="last_name">last_name</label>
+          <input className="form-control" type="text" id="last_name" onChange={(e) => handleChange(e)} value={user.last_name} name="last_name" />
+          {error.last_name && <div className="text-danger">{error.last_name}</div>}
         </div>
         <div className="col-lg-6">
           <label className="form-label" htmlFor="email">Email</label>
@@ -187,14 +188,14 @@ function SignUpForm() {
           {error.email && <div className="text-danger">{error.email}</div>}
         </div>
         <div className="col-lg-6">
-          <label className="form-label" htmlFor="telephone">Téléphone</label>
-          <input className="form-control" type="tel" id="telephone" onChange={(e) => handleChange(e)} value={user.telephone} name="telephone" />
-          {error.telephone && <div className="text-danger">{error.telephone}</div>}
+          <label className="form-label" htmlFor="phone">Téléphone</label>
+          <input className="form-control" type="tel" id="phone" onChange={(e) => handleChange(e)} value={user.phone} name="phone" />
+          {error.phone && <div className="text-danger">{error.phone}</div>}
         </div>
         <div className="col-12">
-          <label className="form-label" htmlFor="adresse" >Adresse</label>
-          <input className="form-control" type="text" id="adresse" onChange={(e) => handleChange(e)} value={user.adresse} name="adresse" />
-          {error.adresse && <div className="text-danger">{error.adresse}</div>}
+          <label className="form-label" htmlFor="address" >address</label>
+          <input className="form-control" type="text" id="address" onChange={(e) => handleChange(e)} value={user.address} name="address" />
+          {error.address && <div className="text-danger">{error.address}</div>}
         </div>
         <div className="col-lg-6">
           <label className="form-label" htmlFor="password" >Mot de passe</label>

@@ -56,13 +56,54 @@
   justify-content: center;
 }
 
+.ColumnList {
+  list-style: none;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  gap: 1rem;
+}
+.ColumnList__link {
+  color: #fff;
+  text-decoration: none;
+}
+.ColumnList__link:hover {
+  color: #fff;
+  text-decoration: none;
+}
+.ColumnList__link:hover::after {
+  width: 100%;
+}
+.ColumnList__link::after {
+  content: "";
+  display: block;
+  background: #fff;
+  width: 0;
+  height: 0.1rem;
+  transition: width 0.3s ease-in;
+}
+
+.UserManagement__button {
+  display: flex;
+  justify-content: center;
+}
+
 .AccommodationPage__img {
   height: 60vh;
   overflow: hidden;
 }
 
 .AdminSignIn {
-  min-height: calc(100vh - 70px);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cbd5e1;
+}
+
+.AdminDashboard__right {
+  background: #cbd5e1;
   display: flex;
   justify-content: center;
   align-items: center;

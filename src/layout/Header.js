@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import { selectUser , logout} from '../redux/userSlice';
 
@@ -9,8 +9,10 @@ const Header = () => {
 
   const user = useSelector(state => selectUser(state));
 
+  const LOCATION = useLocation().pathname;
+
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top justify-content-between" >
+    <nav style={{display: LOCATION.indexOf('admin') !== -1 ? 'none' : 'flex'}}  className="navbar navbar-expand-lg bg-body-tertiary fixed-top justify-content-between" >
     <div className="container-fluid">
       <Link to="/"><img src={Logo} alt="logo" style={{width: '3rem'}} /></Link>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +34,7 @@ const Header = () => {
         <Link className="nav-link" to="/accommodations/add">+ Add an accommodation</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/user/profile">{user.nom + ' ' + user.prenom}</Link>
+        <Link className="nav-link" to="/user/profile">{user.last_name + ' ' + user.first_name}</Link>
       </li>
       <li className="nav-item ms-auto">
         <p className="nav-link" onClick={() => dispatch(logout())}>logout</p>

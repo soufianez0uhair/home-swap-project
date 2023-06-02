@@ -69,6 +69,8 @@ function SignInForm() {
             })
       })
 
+      console.log(error);
+
       /* const userKeysArray = Object.keys(user);
       let data = new FormData();
       for(let i = 0; i < userKeysArray.length; i++) {
