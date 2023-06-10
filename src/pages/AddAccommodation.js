@@ -9,30 +9,29 @@ function AddAccommodation() {
   const navigate = useNavigate();
 
   const [accommodation, setAccommodation] = useState({
-    title: '',
-    description: '',
-    size: null, // 0
-    city_id: null,
-    address: '',
-    rooms_number: null, // 0
-    beds_number: null, // 0
-    floor: null, // ? 0
-    bathrooms_number: null, // 0
+    characteristics: {
+      title: '',
+      description: '',
+      size: null, // 0
+      city_id: null,
+      address: '',
+      rooms_number: null, // 0
+      beds_number: null, // 0
+      bathrooms_number: null, // 0
+      type_name: null,
+      latitude: 0,
+      longitude: 0
+    },
     amenities: [],
     images: null,
-    type: null,
-    latitude: 0,
-    longitude: 0
   });
-
-  const apiBaseURL = 'http://localhost:8383/projet-home-swap/server_last/';
 
   const [types, setTypes] = useState([]);
 
   const getTypes = async () => {
-    await axios.get(APIBASEURL + '/get_accommodations_types.php')
+    await axios.get(APIBASEURL + '/get_types.php')
       .then((res) => {
-        setTypes(res.data.accommodations_types);
+        setTypes(res.data.types);
       })
   }
 
@@ -41,11 +40,13 @@ function AddAccommodation() {
   const getAmenities = async () => {
     await axios.get(APIBASEURL + '/get_amenities.php')
       .then((res) => {
-        setAmenities(res.data.amenities);
+        const amenities = [];
+        for(let i = 0; i < res.data.amenities.length; i++) {
+          amenities[i] = {name: res.data.amenities[i]};
+        }
+        setAmenities(amenities);
       })
   }
-
-  console.log(accommodation);
   
   useEffect(() => {
     getTypes();
@@ -73,11 +74,17 @@ function AddAccommodation() {
       value = Number(value);
     }
 
-    setAccommodation({
-      ...accommodation,
-      [name]: name === 'images' ? e.target.files : value
-    })
-
+    if(name === 'images') {
+      setAccommodation({
+        ...accommodation,
+        images: e.target.files
+      })
+    } else {
+      setAccommodation({
+        ...accommodation,
+        characteristics: {...accommodation.characteristics, [name]: value}
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -98,7 +105,7 @@ function AddAccommodation() {
         }
       }
     } */
-      await axios.post(apiBaseURL + 'add_accommodation.php', accommodation)
+      await axios.post(APIBASEURL + 'add_accommodation.php', accommodation)
         .then(res => {
         // res = JSON.parse(res);
         const resObj = JSON.parse(JSON.stringify(res));
@@ -114,20 +121,18 @@ function AddAccommodation() {
     e.preventDefault();
     await axios.post(APIBASEURL + 'add_accommodation.php', {
        // hardcoded for now, replace with your actual user ID
-      type: accommodation.type,
-      title: accommodation.title,
-      description: accommodation.description,
-      latitude: accommodation.latitude,
-      longitude: accommodation.longitude,
-      city_id: accommodation.city_id,
-      address: accommodation.address,
-      rooms_number: accommodation.rooms_number,
-      beds_number: accommodation.beds_number,
-      floor: accommodation.floor || 0, // set default value to 0 if null
-      bathrooms_number: accommodation.bathrooms_number,
-      dimension: accommodation.dimension || 0, // set default value to 0 if null
+      characteristics: {title: accommodation.characteristics.title,
+      type_name: accommodation.characteristics.type_name,
+      description: accommodation.characteristics.description,
+      latitude: accommodation.characteristics.latitude,
+      longitude: accommodation.characteristics.longitude,
+      city_id: accommodation.characteristics.city_id,
+      address: accommodation.characteristics.address,
+      rooms_number: accommodation.characteristics.rooms_number,
+      beds_number: accommodation.characteristics.beds_number,
+      bathrooms_number: accommodation.characteristics.bathrooms_number,
+      size: accommodation.characteristics.size || 0,}, // set default value to 0 if null
       amenities: accommodation.amenities,
-      purpose: accommodation.purpose || '', // set default value to empty string if null
       images: accommodation.images,
       token: JSON.parse(localStorage.getItem('token'))
     }, {
@@ -140,7 +145,6 @@ function AddAccommodation() {
       console.log(res);
       console.log(res.data);
       // handle successful response here
-      navigate('/');
     })
     .catch(error => {
       console.error(error);
@@ -153,7 +157,7 @@ function AddAccommodation() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(apiBaseURL + 'get_cities.php')
+    fetch(APIBASEURL + 'get_cities.php')
             .then(res => res.json())
             .then(data => {
               setCities(data.cities)
@@ -163,6 +167,8 @@ function AddAccommodation() {
             });
   }, [])
 
+  console.log(accommodation);
+
   return (
     <div class="container" style={{padding: "5rem 1rem 2rem 1rem"}} >
       <h2>Add an accommodation</h2>
@@ -170,13 +176,13 @@ function AddAccommodation() {
         {error && <div className="text-danger">{error}</div> }
         <div class="form-group mb-3">
           <label for="title">Title</label>
-          <input value={accommodation.title} onChange={(e) => handleChange(e)} name="title" type="text" class="form-control" id="title" placeholder="Enter title" />
+          <input value={accommodation.characteristics.title} onChange={(e) => handleChange(e)} name="title" type="text" class="form-control" id="title" placeholder="Enter title" />
         </div>
         <div className="form-group mb-3">
-          <select value={accommodation.type} onChange={(e) => handleChange(e)} name="type" class="form-select" id="type" >
+          <select value={accommodation.characteristics.type_name} onChange={(e) => handleChange(e)} name="type_name" class="form-select" id="type" >
             <option value="">Please select the type of your accommodation</option>
             {
-              types.map(type => <option value={type}>{type}</option>)
+              types.map(type => <option value={type.type_name}>{type.type_name}</option>)
             }
           </select>
         </div>
@@ -186,37 +192,37 @@ function AddAccommodation() {
         </div>
         <div class="form-group mb-3">
           <label for="description">Description</label>
-          <textarea value={accommodation.description} onChange={(e) => handleChange(e)} name="description" class="form-control" id="description" placeholder="Enter description"></textarea>
+          <textarea value={accommodation.characteristics.description} onChange={(e) => handleChange(e)} name="description" class="form-control" id="description" placeholder="Enter description"></textarea>
         </div>
         <div class="form-group mb-3">
           <label for="size">Size</label>
-          <input value={accommodation.size} onChange={(e) => handleChange(e)} name="size" type="text" class="form-control" id="size" placeholder="Enter size" />
+          <input value={accommodation.characteristics.size} onChange={(e) => handleChange(e)} name="size" type="text" class="form-control" id="size" placeholder="Enter size" />
         </div>
         <div className="form-group mb-3">
-          <select value={accommodation.city_id} onChange={(e) => handleChange(e)} name="city_id" class="form-select" id="city_id" >
-            <option value="">Which city is that {accommodation.type ? accommodation.type : 'accommodation'} in?</option>
+          <select value={accommodation.characteristics.city_id} onChange={(e) => handleChange(e)} name="city_id" class="form-select" id="city_id" >
+            <option value="">In Which city is that {accommodation.characteristics.type_name ? accommodation.characteristics.type_name : 'accommodation'}?</option>
             {
               cities.map(city => (
-                <option value={city.city_id}>{city.name}</option>
+                <option value={city.city_id}>{city.city_name}</option>
               ))
             }
           </select>
         </div>
         <div class="form-group mb-3">
           <label for="address">Address</label>
-          <input value={accommodation.address} onChange={(e) => handleChange(e)} name="address" type="text" class="form-control" id="address" placeholder="Enter address" />
+          <input value={accommodation.characteristics.address} onChange={(e) => handleChange(e)} name="address" type="text" class="form-control" id="address" placeholder="Enter address" />
         </div>
         <div class="form-group mb-3">
           <label for="rooms">Rooms Number</label>
-          <input value={accommodation.rooms_number} onChange={(e) => handleChange(e)} name="rooms_number" type="number" class="form-control" id="rooms" placeholder="Enter rooms number" />
+          <input value={accommodation.characteristics.rooms_number} onChange={(e) => handleChange(e)} name="rooms_number" type="number" class="form-control" id="rooms" placeholder="Enter rooms number" />
         </div>
         <div class="form-group mb-3">
           <label for="beds">Beds Number</label>
-          <input value={accommodation.beds_number} onChange={(e) => handleChange(e)} name="beds_number" type="number" class="form-control" id="beds" placeholder="Enter beds number" />
+          <input value={accommodation.characteristics.beds_number} onChange={(e) => handleChange(e)} name="beds_number" type="number" class="form-control" id="beds" placeholder="Enter beds number" />
         </div>
         <div class="form-group mb-3">
           <label for="bathrooms">Bathrooms Number</label>
-          <input value={accommodation.bathrooms_number} onChange={(e) => handleChange(e)} name="bathrooms_number" type="number" class="form-control" id="bathrooms" placeholder="Enter bathrooms number" />
+          <input value={accommodation.characteristics.bathrooms_number} onChange={(e) => handleChange(e)} name="bathrooms_number" type="number" class="form-control" id="bathrooms" placeholder="Enter bathrooms number" />
         </div>
         <div className="form-group mb-3">
           <label for="bathrooms">Amenities</label>

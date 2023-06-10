@@ -16,7 +16,6 @@ function SignUpForm() {
     last_name: '',
     email: '',
     phone: '',
-    address: '',
     password: '',
     password2: ''
   });
@@ -42,7 +41,7 @@ function SignUpForm() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if(!user.first_name || !user.last_name || !user.email || !user.phone || !user.address || !user.password || !user.password2) {
+    if(!user.first_name || !user.last_name || !user.email || !user.phone || !user.password || !user.password2) {
       setError({
         first_name: '',
         last_name: '',
@@ -191,11 +190,6 @@ function SignUpForm() {
           <label className="form-label" htmlFor="phone">Téléphone</label>
           <input className="form-control" type="tel" id="phone" onChange={(e) => handleChange(e)} value={user.phone} name="phone" />
           {error.phone && <div className="text-danger">{error.phone}</div>}
-        </div>
-        <div className="col-12">
-          <label className="form-label" htmlFor="address" >address</label>
-          <input className="form-control" type="text" id="address" onChange={(e) => handleChange(e)} value={user.address} name="address" />
-          {error.address && <div className="text-danger">{error.address}</div>}
         </div>
         <div className="col-lg-6">
           <label className="form-label" htmlFor="password" >Mot de passe</label>

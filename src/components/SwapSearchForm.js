@@ -62,7 +62,7 @@ import { APIBASEURL } from '../helpers/sharedVariables';
             <option value="">Where to?</option>
             {
               cities.map(city => (
-                <option value={city.city_id}>{city.name}</option>
+                <option value={city.city_id}>{city.city_name}</option>
               ))
             }
         </select>
