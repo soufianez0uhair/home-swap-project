@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const HomeList = ({ homes }) => {
   const navigate = useNavigate();
 
-  console.log(homes);
   return (
     <Container>
       <Row>
@@ -17,14 +16,14 @@ const HomeList = ({ homes }) => {
               style={{ cursor: 'pointer' }}
             >
               <Card.Body>
-                <Card.Img className="mb-3" variant="top" src={"http://localhost:8383/projet-home-swap/server_last/" + home.media[0]} />
+                <Card.Img className="mb-3" variant="top" src={"http://localhost:8383/projet-home-swap/server4/" + home.media[1]} />
                 <Card.Title className="mb-3" >{home.title}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                  {home.type}
+                  {home.type_name}
                 </Card.Subtitle>
               </Card.Body>
               <Card.Footer>
-                <small className="text-muted">{home.adress}</small>
+                <small className="text-muted">{home.city_name}</small>
               </Card.Footer>
             </Card>
           </Col>

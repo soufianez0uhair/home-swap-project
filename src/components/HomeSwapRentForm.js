@@ -96,7 +96,7 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
     <form className="HomeSwapRentForm">
       <div className="HomeSwapRentForm__button">
       </div>
-      {points && <h3 className="HomeSwapRentForm__points text-primary">{points} <span>points/night</span></h3>}
+      {points && <h3 className="HomeSwapRentForm__points mb-4 text-primary">{points} <span>points/nuit</span></h3>}
       <div className="HomeSwapRentForm__group">
         <DatePicker
           onChange={date => changeStartDate(date)}
@@ -116,7 +116,7 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
           placeholderText="Select a date other than the interval from 5 days ago to 5 days in the future"
         />
       </div>
-      <div className="HomeSwapRentForm__group">
+      <div className="HomeSwapRentForm__button">
         <button class="btn btn-primary" >Ask for a swap</button>
       </div>
     </form>

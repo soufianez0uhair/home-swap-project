@@ -25,10 +25,8 @@ import axios from 'axios';
     function search(e) {
       e.preventDefault();
 
-      navigate(`/search/results/${swapSearch.city_id ? swapSearch.city_id : 'undefined'}/${swapSearch.type ? swapSearch.type : "undefined"}/${swapSearch.start_date ? swapSearch.start_date : "undefined"}/${swapSearch.end_date ? swapSearch.end_date : "undefined"}`);
+      navigate(`/search/results/${swapSearch.city_id ? swapSearch.city_id : 'undefined'}/${swapSearch.type_name ? swapSearch.type_name : "undefined"}/${swapSearch.start_date ? swapSearch.start_date : "undefined"}/${swapSearch.end_date ? swapSearch.end_date : "undefined"}`);
     }
-
-    const apiBaseURL = 'http://localhost:8383/projet-home-swap/server_last/'
 
     const [cities, setCities] = useState([]);
 
@@ -37,9 +35,9 @@ import axios from 'axios';
     const [types, setTypes] = useState([]);
 
     const getTypes = async () => {
-      await axios.get(APIBASEURL + '/get_accommodations_types.php')
+      await axios.get(APIBASEURL + 'get_types.php')
         .then((res) => {
-          setTypes(res.data.accommodations_types);
+          setTypes(res.data.types);
         })
     }
 
@@ -55,6 +53,8 @@ import axios from 'axios';
         getTypes();
     }, [])
 
+    console.log(swapSearch);
+
     return (
       <form onSubmit={(e) => search(e)} className="d-inline-flex align-items-center rounded-pill border overflow-hidden p-2 mb-3" >
         <select name="city_id" value={swapSearch.city_id} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
@@ -65,10 +65,10 @@ import axios from 'axios';
               ))
             }
         </select>
-        <select name="type" value={swapSearch.type} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
+        <select name="type_name" value={swapSearch.type_name} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
             <option value="">type</option>
             {
-              types.map(type => <option value={type}>{type}</option> )
+              types.map(type => <option value={type.type_name}>{type.type_name}</option> )
             }
         </select>
         <input name="start_date" value={swapSearch.start_date} onChange={(e) => handleChange(e)} min={getTodayDate()} max={swapSearch.end_date} className="border-0 me-1" type="date" />

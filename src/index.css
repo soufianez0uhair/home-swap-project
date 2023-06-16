@@ -13,10 +13,8 @@
 
 .HomeDescription {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .HomeSwapRentForm {
@@ -99,9 +97,22 @@
   grid-column: 7/8;
 }
 
+.Testimonial {
+  display: flex;
+  margin: 0 auto;
+  width: 70%;
+}
+.Testimonial img {
+  height: 10rem;
+  width: 6rem;
+}
+.Testimonial__content {
+  margin-top: 1rem;
+}
+
 .AccommodationPage__img {
-  height: 60vh;
-  overflow: hidden;
+  width: 60%;
+  margin: 0 auto;
 }
 
 .AdminSignIn {

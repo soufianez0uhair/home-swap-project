@@ -167,40 +167,38 @@ function AddAccommodation() {
             });
   }, [])
 
-  console.log(accommodation);
-
   return (
     <div class="container" style={{padding: "5rem 1rem 2rem 1rem"}} >
-      <h2>Add an accommodation</h2>
+      <h2>Ajouter un logement</h2>
       <form onSubmit={(e) => submitForm(e, accommodation)} >
         {error && <div className="text-danger">{error}</div> }
         <div class="form-group mb-3">
-          <label for="title">Title</label>
-          <input value={accommodation.characteristics.title} onChange={(e) => handleChange(e)} name="title" type="text" class="form-control" id="title" placeholder="Enter title" />
+          <label for="title">Titre</label>
+          <input value={accommodation.characteristics.title} onChange={(e) => handleChange(e)} name="title" type="text" class="form-control" id="title" placeholder="Entrez titre" />
         </div>
         <div className="form-group mb-3">
           <select value={accommodation.characteristics.type_name} onChange={(e) => handleChange(e)} name="type_name" class="form-select" id="type" >
-            <option value="">Please select the type of your accommodation</option>
+            <option value="">Veuillez sélectionner le type de votre logement</option>
             {
               types.map(type => <option value={type.type_name}>{type.type_name}</option>)
             }
           </select>
         </div>
         <div className="form-group mb-3">
-          <label for="images">Upload your accommodation images</label>
+          <label for="images">Téléchargez les images de votre logement</label>
           <input files={accommodation.images} onChange={(e) => handleChange(e)} name="images" type="file" class="form-control" id="images" multiple/>
         </div>
         <div class="form-group mb-3">
           <label for="description">Description</label>
-          <textarea value={accommodation.characteristics.description} onChange={(e) => handleChange(e)} name="description" class="form-control" id="description" placeholder="Enter description"></textarea>
+          <textarea value={accommodation.characteristics.description} onChange={(e) => handleChange(e)} name="description" class="form-control" id="description" placeholder="Entrez description"></textarea>
         </div>
         <div class="form-group mb-3">
-          <label for="size">Size</label>
-          <input value={accommodation.characteristics.size} onChange={(e) => handleChange(e)} name="size" type="text" class="form-control" id="size" placeholder="Enter size" />
+          <label for="size">Taille</label>
+          <input value={accommodation.characteristics.size} onChange={(e) => handleChange(e)} name="size" type="text" class="form-control" id="size" placeholder="Entrez la taille" />
         </div>
         <div className="form-group mb-3">
           <select value={accommodation.characteristics.city_id} onChange={(e) => handleChange(e)} name="city_id" class="form-select" id="city_id" >
-            <option value="">In Which city is that {accommodation.characteristics.type_name ? accommodation.characteristics.type_name : 'accommodation'}?</option>
+            <option value="">Dans quelle ville est-ce logement?</option>
             {
               cities.map(city => (
                 <option value={city.city_id}>{city.city_name}</option>
@@ -209,20 +207,20 @@ function AddAccommodation() {
           </select>
         </div>
         <div class="form-group mb-3">
-          <label for="address">Address</label>
-          <input value={accommodation.characteristics.address} onChange={(e) => handleChange(e)} name="address" type="text" class="form-control" id="address" placeholder="Enter address" />
+          <label for="address">Adresse</label>
+          <input value={accommodation.characteristics.address} onChange={(e) => handleChange(e)} name="address" type="text" class="form-control" id="address" placeholder="Entrez l'adresse" />
         </div>
         <div class="form-group mb-3">
-          <label for="rooms">Rooms Number</label>
-          <input value={accommodation.characteristics.rooms_number} onChange={(e) => handleChange(e)} name="rooms_number" type="number" class="form-control" id="rooms" placeholder="Enter rooms number" />
+          <label for="rooms">Nombre de chambres</label>
+          <input value={accommodation.characteristics.rooms_number} onChange={(e) => handleChange(e)} name="rooms_number" type="number" class="form-control" id="rooms" />
         </div>
         <div class="form-group mb-3">
-          <label for="beds">Beds Number</label>
-          <input value={accommodation.characteristics.beds_number} onChange={(e) => handleChange(e)} name="beds_number" type="number" class="form-control" id="beds" placeholder="Enter beds number" />
+          <label for="beds">Nombre de lits</label>
+          <input value={accommodation.characteristics.beds_number} onChange={(e) => handleChange(e)} name="beds_number" type="number" class="form-control" id="beds" />
         </div>
         <div class="form-group mb-3">
-          <label for="bathrooms">Bathrooms Number</label>
-          <input value={accommodation.characteristics.bathrooms_number} onChange={(e) => handleChange(e)} name="bathrooms_number" type="number" class="form-control" id="bathrooms" placeholder="Enter bathrooms number" />
+          <label for="bathrooms">Nombre de toilettes</label>
+          <input value={accommodation.characteristics.bathrooms_number} onChange={(e) => handleChange(e)} name="bathrooms_number" type="number" class="form-control" id="bathrooms" />
         </div>
         <div className="form-group mb-3">
           <label for="bathrooms">Amenities</label>

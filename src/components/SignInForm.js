@@ -3,7 +3,7 @@ import { emailValidator } from "../helpers/validator";
 import axios from "axios";
 import {useDispatch} from 'react-redux';
 import { auth } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { APIBASEURL } from "../helpers/sharedVariables";
 
 function SignInForm() {
@@ -111,6 +111,7 @@ function SignInForm() {
         {error.password && <div className="text-danger mb-2">{error.password}</div>}
         <button className="btn btn-primary mb-2" type="submit" >Se connecter</button>
         {error.allFields && <div className="text-danger mb-2">{error.allFields}</div>}
+        <div>Pas encore inscrit ? <Link to="/user/signin">S'inscrire</Link></div>
       </form>
     </div>
   )

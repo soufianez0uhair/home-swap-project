@@ -48,7 +48,7 @@ function App() {
         <Route path="/user/signup" element={!user ? <AuthSplitScreen img={SignUpImg} child={SignUpForm} /> : <Navigate to="/" />} />
         <Route path="/user/signin" element={!user ? <AuthSplitScreen img={SignUpImg} child={SignInForm} /> : <Navigate to="/" />} />
         <Route path="/" element={<Home swapSearch={swapSearch} handleChange={handleChange} />} />
-        <Route path="/search/results/:city_id/:type/:start_date/:end_date" element={<SearchResults swapSearch={swapSearch} />} />
+        <Route path="/search/results/:city_id/:type_name/:start_date/:end_date" element={<SearchResults swapSearch={swapSearch} />} />
         <Route path="/accommodations/add" element={user ? <AddAccommodation /> : <Navigate to="/user/signin" />} />
         <Route path="/accommodations/:id" element={<AccommodationPage />} />
         <Route path="/admin/signin" element={!admin ? <AdminSignIn /> : <Navigate to="/admin/dashboard" />} />

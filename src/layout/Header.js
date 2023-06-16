@@ -22,16 +22,16 @@ const Header = () => {
   {!user ? (
     <ul className="navbar-nav ms-lg-auto mb-2 mb-lg-0">
       <li className="nav-item">
-        <Link className="nav-link" to="/user/signin">Login</Link>
+        <Link className="nav-link" to="/user/signin">Se connecter</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/user/signup">Register</Link>
+        <Link className="nav-link" to="/user/signup">S'inscrire</Link>
       </li>
     </ul>
   ) : (
     <ul className="navbar-nav ms-lg-auto mb-2 mb-lg-0">
       <li className="nav-item">
-        <Link className="nav-link" to="/accommodations/add">+ Add an accommodation</Link>
+        <Link className="nav-link" to="/accommodations/add">+ Ajouter un logement</Link>
       </li>
       <li className="nav-item">
         <Link className="nav-link" to="/user/profile">{user.last_name + ' ' + user.first_name}</Link>

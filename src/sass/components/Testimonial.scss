@@ -1,0 +1,12 @@
+.Testimonial {
+  display: flex;
+  margin: 0 auto;
+  width: 70%;
+  img {
+    height: 10rem;
+    width: 6rem;
+  }
+  &__content {
+    margin-top: 1rem;
+  }
+}

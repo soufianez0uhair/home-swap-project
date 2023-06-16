@@ -15,18 +15,18 @@ function Home({swapSearch, handleChange}) {
     <>
       <Hero handleChange={handleChange} swapSearch={swapSearch} />
       <section className="why d-flex flex-column align-items-center mb-5">
-        <h1 className="fw-bold mb-5" >Why choose swapping?</h1>
-        <p className="fs-5 w-75 text-center" >Home swapping allows you to travel like a local, save money on accommodations, and experience new destinations in a unique and authentic way.</p>
+        <h1 className="fw-bold mb-5" >Pourquoi choisir l'échange ?</h1>
+        <p className="fs-5 w-75 text-center" >L'échange de maisons vous permet de voyager comme un local, d'économiser de l'argent sur l'hébergement et de découvrir de nouvelles destinations d'une manière unique et authentique.</p>
       </section>
       <section className="how d-flex flex-column align-items-center mb-5">
-        <h1 className="fw-bold mb-5" >How our system works?</h1>
+        <h1 className="fw-bold mb-5" >Comment fonctionne notre système ?</h1>
         <UsingSystemList />
       </section>
       <section className="whyHomeSwapping d-flex flex-column align-items-center">
-        <h1 className="fw-bold text-center" >The World is under your fingertips!</h1>
-        <SplitScreen img={House} ><WhyText title="Places you'll adore" description="Whether you’re looking to switch it up, take a local break, or work from someone else’s home, we have what you are looking for." /></SplitScreen>
-        <SplitScreen img={Trust} ><WhyText title="People you'll trust" description="With our safety guidelines in place, swap homes with house proud members who will treat your place like their own. Avoid crowded hotels and stay where the locals live, with all the creature comforts of home." /></SplitScreen>
-        <SplitScreen img={ReduceCosts} ><WhyText title="Prices you'll love" description="Our members upgrade their vacations to something more interesting, comfortable and enjoyable... and actually spend less." /></SplitScreen>
+        <h1 className="fw-bold text-center" >Le monde est sous vos doigts !</h1>
+        <SplitScreen img={House} ><WhyText title="Lieux que vous adorerez" description="Que vous cherchiez à changer, à faire une pause locale ou à travailler depuis la maison de quelqu'un d'autre, nous avons ce que vous cherchez." /></SplitScreen>
+        <SplitScreen img={Trust} ><WhyText title="Des personnes de confiance" description="Avec nos directives de sécurité en place, échangez des maisons avec des membres fiers de la maison qui traiteront votre maison comme la leur. Évitez les hôtels bondés et restez là où vivent les habitants, avec tout le confort de la maison." /></SplitScreen>
+        <SplitScreen img={ReduceCosts} ><WhyText title="Des prix que vous allez adorer" description="Nos membres surclassent leurs vacances en quelque chose de plus intéressant, confortable et agréable... et dépensent moins." /></SplitScreen>
       </section>
     </>
   )

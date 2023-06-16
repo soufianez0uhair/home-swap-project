@@ -21,36 +21,20 @@ function SearchResults() {
     }
   }
 
-  const [filters, setFilters] = useState({...params, city_id: Number(params.city_id), type_name: params.type, amenities: [], seen_accommodations: []});
-
-  const apiBaseURL = 'http://localhost:8383/projet-home-swap/server_last/';
+  const [filters, setFilters] = useState({...params, city_id: params.city_id !== "undefined" ? Number(params.city_id) : '', type_name: params.type_name !== "undefined" ? params.type_name : "", start_date: params.start_date !== "undefined" ? params.start_date : "", end_date: params.end_date !== "undefined" ? params.end_date : "", amenities: [], seen_ids: []});
 
   console.log(accommodations, error);
-
-  const submitForm = async () => {
-    await axios.post(apiBaseURL + 'get_accommodations.php', filters, {
-      headers : {
-          'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
-      }
-    })
-      .then(res => {
-        setAccommodations(res.data.accommodations_to_show)
-        // handle successful response here
-      })
-      .catch(error => {
-        console.error(error);
-        // handle error response here
-      });
-  }
 
   useEffect(() => {
     const getAccommodations = async () => {
       await axios.post(APIBASEURL + 'get_accommodations.php', JSON.stringify(filters))
-        .then(res => setAccommodations(res.data.accommodations))
+        .then(res => {
+          console.log(res);
+          setAccommodations(res.data.accommodations)})
         .catch((e) => setError({...error, 'fetchingError': e.message}))
     }
     getAccommodations();
-  }, [filters])
+  }, [])
 
   function handleChange(e) {
     let {name, value} = e.target;

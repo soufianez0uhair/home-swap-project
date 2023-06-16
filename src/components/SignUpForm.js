@@ -172,12 +172,12 @@ function SignUpForm() {
       <form className="row mx-auto g-3" onSubmit={(e) => handleSubmit(e)} >
         <h1>Créez votre compte!</h1>
         <div className="col-lg-6">
-          <label className="form-label" htmlFor="first_name" required>First name</label>
+          <label className="form-label" htmlFor="first_name" required>Prénom</label>
           <input className="form-control" type="text" id="first_name" onChange={(e) => handleChange(e)} value={user.first_name} name="first_name" />
           {error.first_name && <div className="text-danger">{error.first_name}</div>}
         </div>
         <div className="col-lg-6">
-          <label className="form-label" htmlFor="last_name">Last name</label>
+          <label className="form-label" htmlFor="last_name">Nom</label>
           <input className="form-control" type="text" id="last_name" onChange={(e) => handleChange(e)} value={user.last_name} name="last_name" />
           {error.last_name && <div className="text-danger">{error.last_name}</div>}
         </div>

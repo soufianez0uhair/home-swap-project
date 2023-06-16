@@ -59,7 +59,7 @@ import { APIBASEURL } from '../helpers/sharedVariables';
     return (
       <form onSubmit={(e) => search(e)} className="d-inline-flex align-items-center rounded-pill border overflow-hidden p-2 mb-3" >
         <select name="city_id" value={swapSearch.city_id} onChange={(e) => handleChange(e)} className="border-0" style={{border: "none", outline: "none"}} >
-            <option value="">Where to?</option>
+            <option value="">Où aller ?</option>
             {
               cities.map(city => (
                 <option value={city.city_id}>{city.city_name}</option>

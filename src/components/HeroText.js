@@ -18,7 +18,7 @@ function HeroText({swapSearch, title, description, handleChange}) {
               </p>
             </div>
           </div>
-          <Link to="https://youtu.be/UtBGiLYjYdE" target="_blank" className="d-flex align-items-center text-decoration-none fs-6 mb-4" ><BsPlayFill className="me-1 fs-3" /> How does home swapping works?</Link>
+          <Link to="https://youtu.be/UtBGiLYjYdE" target="_blank" className="d-flex align-items-center text-decoration-none fs-6 mb-4" ><BsPlayFill className="me-1 fs-3" /> Comment fonctionne l'échange de maison ?</Link>
           <HouseOptions swapSearch={swapSearch} handleChange={handleChange} />
         </>
   )

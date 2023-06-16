@@ -7,7 +7,7 @@ function Hero({swapSearch, handleChange}) {
   return (
     <section className="hero">
       <SplitScreen img={HeroImg} >
-        <HeroText swapSearch={swapSearch} handleChange={handleChange} title={["Find your next ", <span className="text-primary" >adventure</span>, " now!"]} />
+        <HeroText swapSearch={swapSearch} handleChange={handleChange} title={["Trouvez votre prochaine ", <span className="text-primary" >aventure</span>, " maintenant!"]} />
       </SplitScreen>
     </section>
   )

@@ -8,19 +8,19 @@ import Travel from '../assets/icons/airplane.png';
 function UsingSystemList() {
   const steps = [
     {
-      title: 'Create an account for free',
+      title: 'Créer un compte gratuitement',
       img: SignUp
     },
     {
-      title: 'Search for your next destination',
+      title: 'Recherchez votre prochaine destination',
       img: Search
     },
     {
-      title: 'Buy points so you can do your first swap',
+      title: 'Recherchez votre prochaine destination',
       img: Points
     },
     {
-      title: 'Enjoy your travel and start enjoying the world',
+      title: 'Commencez à profiter du monde',
       img: Travel
     }
   ];
