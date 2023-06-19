@@ -110,6 +110,10 @@
   margin-top: 1rem;
 }
 
+.SideMenu__icon {
+  font-size: 2.1rem;
+}
+
 .AccommodationPage__img {
   width: 60%;
   margin: 0 auto;
@@ -128,6 +132,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.UserDashboard {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  min-height: 100vh;
+  width: 100%;
+  margin-top: 74px;
+}
+.UserDashboard__right {
+  padding: 2rem;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -47,6 +47,8 @@ function AddAccommodation() {
         setAmenities(amenities);
       })
   }
+
+  console.log(amenities)
   
   useEffect(() => {
     getTypes();
@@ -126,12 +128,12 @@ function AddAccommodation() {
       description: accommodation.characteristics.description,
       latitude: accommodation.characteristics.latitude,
       longitude: accommodation.characteristics.longitude,
-      city_id: accommodation.characteristics.city_id,
+      city_id: 30, //accommodation.characteristics.city_id,
       address: accommodation.characteristics.address,
-      rooms_number: accommodation.characteristics.rooms_number,
+      rooms_number:  accommodation.characteristics.rooms_number,
       beds_number: accommodation.characteristics.beds_number,
       bathrooms_number: accommodation.characteristics.bathrooms_number,
-      size: accommodation.characteristics.size || 0,}, // set default value to 0 if null
+      size: 155}, //accommodation.characteristics.size || 0,}, // set default value to 0 if null
       amenities: accommodation.amenities,
       images: accommodation.images,
       token: JSON.parse(localStorage.getItem('token'))
@@ -144,6 +146,7 @@ function AddAccommodation() {
     .then(res => {
       console.log(res);
       console.log(res.data);
+      navigate("/user/dashboard");
       // handle successful response here
     })
     .catch(error => {
@@ -167,9 +170,10 @@ function AddAccommodation() {
             });
   }, [])
 
+  console.log(accommodation)
   return (
     <div class="container" style={{padding: "5rem 1rem 2rem 1rem"}} >
-      <h2>Ajouter un logement</h2>
+      <h2>Ajouter un bien</h2>
       <form onSubmit={(e) => submitForm(e, accommodation)} >
         {error && <div className="text-danger">{error}</div> }
         <div class="form-group mb-3">

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import Spinner from '../assets/gifs/spinner.gif';
 import FilterSearchForm from "../components/FilterSearchForm";
 import HomeList from "../components/HomeList";
 import { APIBASEURL } from "../helpers/sharedVariables";
@@ -26,6 +26,7 @@ function SearchResults() {
   console.log(accommodations, error);
 
   useEffect(() => {
+    setAccommodations(null);
     const getAccommodations = async () => {
       await axios.post(APIBASEURL + 'get_accommodations.php', JSON.stringify(filters))
         .then(res => {
@@ -34,12 +35,12 @@ function SearchResults() {
         .catch((e) => setError({...error, 'fetchingError': e.message}))
     }
     getAccommodations();
-  }, [])
+  }, [filters])
 
   function handleChange(e) {
     let {name, value} = e.target;
 
-    value = name === 'city_id' ? Number(value) : value; 
+    value = name === 'city_id' && value ? Number(value) : value; 
 
     setFilters({
       ...filters,
@@ -50,7 +51,7 @@ function SearchResults() {
   return (
     <div style={{paddingTop: '7rem'}} className="px-4" >
       <FilterSearchForm swapSearch={filters} handleChange={handleChange}  />
-      {accommodations && <HomeList homes={accommodations} />}
+      {accommodations ? <HomeList homes={accommodations} /> : <img src={Spinner} alt="" style={{width: '20rem', marginTop: '25vh'}} /> }
     </div>
   )
 }

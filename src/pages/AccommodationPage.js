@@ -1,7 +1,7 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Form, Row, Col, Button, Badge } from "react-bootstrap";
+import { Badge } from "react-bootstrap";
 import { Carousel } from 'react-responsive-carousel';
 import axios from 'axios';
 import { APIBASEURL } from '../helpers/sharedVariables';
@@ -11,6 +11,9 @@ import {IoBed} from 'react-icons/io5';
 import HomeDescriptionEl from '../components/HomeDescriptionEl';
 import HomeSwapRentForm from '../components/HomeSwapRentForm';
 import Testimonials from "../components/Testimonials";
+import AlertModal from "../components/AlertModal";
+import { selectUser } from "../redux/userSlice";
+import { useSelector } from "react-redux";
 
 function AccommodationPage() {
   const { id } = useParams(); // Assuming you have a route parameter for the accommodation ID
@@ -72,8 +75,6 @@ function AccommodationPage() {
   ];
   
     
-  console.log(accommodation);
-
   const [cities, setCities] = useState(null);
 
   useEffect(() => {
@@ -96,23 +97,31 @@ function AccommodationPage() {
       }
     }, [cities, accommodation])
     
+    const [show, setShow] = useState({
+      reason: "",
+      message: ""
+    });
+
+    const handleShow = (newShow) => {
+      setShow(newShow)};
+    const handleClose = () => setShow({reason: '', message: ''});
+    const user = useSelector(state => selectUser(state));
+    console.log(show)
   return (
     <>
-      {accommodation && <div className="container" style={{marginTop: '7rem'}}>
+      {accommodation && <div>
+        <div className="container" style={{marginTop: '7rem'}}>
       <h2 style={{marginBottom: "1rem"}} >{accommodation.characteristics.title} - {city}</h2>
       <div className="AccommodationPage__img">
             <Carousel autoPlay infiniteLoop >
-                <div>
-                    <img style={{height: "100%"}} src="https://storage.googleapis.com/listings-image/uploads/2023-05-23T120801-244Z-Appartement-3-chambres-GrandCasablanca-Settat-Hay-Hassani1684843674068-53ae4b82-4ca1-43ed-88d4-18d777ccc725-annonce-agenz.jpg" />
-                </div>
-                <div>
-                    <img style={{height: "100%"}} src="https://storage.googleapis.com/listings-image/uploads/2023-05-23T120809-068Z-Appartement-3-chambres-GrandCasablanca-Settat-Hay-Hassani1684843674069-0df8dd95-2fb9-4be6-b293-0464e0a1ce41-annonce-agenz.jpg" />
-                </div>
-                <div>
-                    <img style={{height: "100%"}} src="https://storage.googleapis.com/listings-image/uploads/2023-05-23T120804-648Z-Appartement-3-chambres-GrandCasablanca-Settat-Hay-Hassani1684843674070-7b364ac1-b16d-4cfc-a8cf-32ad115ebfaa-annonce-agenz.jpg" />
-                </div>
+              {
+                accommodation && accommodation.media.map(media => (
+                  <div>
+                    {accommodation && <img style={{height: "100%"}} src={APIBASEURL + media.file_path} />}
+                  </div>
+                ))
+              }
             </Carousel>
-        <img src={APIBASEURL + accommodation.media[Math.floor(Math.random() * accommodation.media.length)]} className="col-12" alt="" />
       </div>
       <div className="row mt-4" >
         <div className="col-md-8" style={{display: 'flex', flexDirection: 'column', gap: '.5rem'}}>
@@ -143,13 +152,17 @@ function AccommodationPage() {
           </div>
         </div>
         <div className="col-md-4">
-          {accommodation && <HomeSwapRentForm purpose={accommodation.purpose} accommodation_id={accommodation.accommodation_id} points={accommodation.characteristics.value} />}
+          {accommodation && <HomeSwapRentForm handleShow={handleShow} swaps={accommodation.availability.swaps} accommodation_id={id} points={accommodation.characteristics.value} />}
         </div>
         <div className="col-12">
           <Testimonials />
         </div>
       </div>
-    </div>}
+    </div>
+    {user && accommodation && <AlertModal  action={{link: "/points/buy", name: "Achetez des points"}} title="Points insuffisants!" body={show.message} handleClose={handleClose} show={show.reason === "balance_error"} />}
+    <AlertModal handleShow={handleShow} action={{link: "/user/signup", name: "S'inscrire"}} title="Vous devez se connecter!" body={"Vous pouvez pas faire du swap sans avoir un compte."} handleClose={handleClose} show={show.reason === "not_authentified"} />
+
+        </div>}
     </>
   );
 };

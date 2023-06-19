@@ -73,7 +73,6 @@ import axios from 'axios';
         </select>
         <input name="start_date" value={swapSearch.start_date} onChange={(e) => handleChange(e)} min={getTodayDate()} max={swapSearch.end_date} className="border-0 me-1" type="date" />
         <input name="end_date" value={swapSearch.end_date} onChange={(e) => handleChange(e)} min={swapSearch.start_date} className="border-0 me-1" type="date" />
-        <HiSearchCircle onClick={(e) => search(e)} className="fs-2 text-primary" />
       </form>
     )
 }

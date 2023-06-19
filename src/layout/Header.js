@@ -31,13 +31,16 @@ const Header = () => {
   ) : (
     <ul className="navbar-nav ms-lg-auto mb-2 mb-lg-0">
       <li className="nav-item">
-        <Link className="nav-link" to="/accommodations/add">+ Ajouter un logement</Link>
+      <Link className="nav-link" to="/accommodations/add" >Bonjour {user.last_name + ' ' + user.first_name}</Link>
       </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/user/profile">{user.last_name + ' ' + user.first_name}</Link>
+        <Link className="nav-link" to="/accommodations/add">+ Ajouter un bien</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/user/dashboard">Tableau de bord</Link>
       </li>
       <li className="nav-item ms-auto">
-        <p className="nav-link" onClick={() => dispatch(logout())}>logout</p>
+        <p className="nav-link" style={{cursor: "pointer"}} onClick={() => dispatch(logout())}>Se déconnecter</p>
       </li>
     </ul>
   )}

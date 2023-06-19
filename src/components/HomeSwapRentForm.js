@@ -5,44 +5,37 @@ import axios from "axios";
 import { APIBASEURL } from "../helpers/sharedVariables";
 import 'jquery-ui/themes/base/all.css';
 import 'jquery-ui/ui/widgets/datepicker';
-import $ from 'jquery';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
-function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
+function HomeSwapRentForm({points, swaps, accommodation_id, handleShow}) {
   const [request, setRequest] = useState({
-    accommodation_id,
-    user_id,
+    accommodation_id: Number(accommodation_id),
     start_date: null,
     end_date: null,
     token: JSON.parse(localStorage.getItem('token'))
   });
 
-  const [dates, setDates] = useState([]);
-
-  const getDates = async () => {
-    await axios.get(APIBASEURL + '', {accommodation_id: accommodation_id})
-      .then((res) => {
-        setDates(res.data)
-      })
-      .catch(err => console.log(err))
-  }
-
-  useEffect(() => {
-    getDates();
-  }, [])
-
   const [datesObj, setDatesObj] = useState(null);
 
   useEffect(() => {
     const newDatesObj = [];
-    for(let i = 0; i < dates.length; i++) {
-      newDatesObj[i] = {start: new Date(dates[i].start_date), end: new Date(dates[i].end_date)};
+    for(let i = 0; i < swaps.length; i++) {
+      newDatesObj[i] = {start: new Date(swaps[i].start_date), end: new Date(swaps[i].end_date)};
     }
     setDatesObj(newDatesObj);
-  }, [dates])
+  }, [swaps])
+
+  const [cost, setCost] = useState(points);
 
   const changeStartDate = (date) => {
+    if(request.end_date && date) {
+      let timeDiff = request.end_date.getTime() - date.getTime();
+      setCost(points * (Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1));
+    }
     setRequest({
       ...request,
       start_date: date
@@ -50,6 +43,10 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
   }
 
   const changeEndDate = (date) => {
+    if(request.start_date && date) {
+      let timeDiff = date.getTime() - request.start_date.getTime();
+      setCost(points * (Math.ceil(timeDiff / (1000 * 3600 * 24))+ 1) );
+    }
     setRequest({
       ...request,
       end_date: date
@@ -58,14 +55,22 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
 
   const [error, setError] = useState({
     start_date: null,
-    end_date: null
+    end_date: null,
+    
   });
 
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const user = useSelector(state => selectUser(state));
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(!user) {
+      handleShow("not_authentified");
+    }
     if(!request.start_date) {
       setError({
         ...error,
@@ -77,26 +82,30 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
         end_date: 'Please select an end date'
       })
     } else {
-      await axios.post(APIBASEURL + '',{
+      await axios.post(APIBASEURL + 'swap[1].php',JSON.stringify({
         ...request,
         start_date: request.start_date.toISOString().substring(0, 10),
         end_date: request.end_date.toISOString().substring(0, 10)
-      })
+      }))
         .then(res => {
+
           if(res.data.error) {
             setError(res.data.error)
           } else {
-            setIsSuccess(true);
+            if(res.data.success) navigate("/user/dashboard");
           }
         })
+        .catch(e => console.log(e))
     }
   }
-
+  useEffect(() => {
+    if(error.balance_error) handleShow({reason: "balance_error", message: error.balance_error});
+  }, [error])
   return (
-    <form className="HomeSwapRentForm">
+    <form onSubmit={(e) => handleSubmit(e)} className="HomeSwapRentForm">
       <div className="HomeSwapRentForm__button">
       </div>
-      {points && <h3 className="HomeSwapRentForm__points mb-4 text-primary">{points} <span>points/nuit</span></h3>}
+      {points && <h3 className="HomeSwapRentForm__points mb-4 text-primary">{cost} <span>points/nuit</span></h3>}
       <div className="HomeSwapRentForm__group">
         <DatePicker
           onChange={date => changeStartDate(date)}
@@ -111,6 +120,7 @@ function HomeSwapRentForm({points, purpose, accommodation_id, user_id}) {
           selected={null || request.end_date}
           onChange={date => changeEndDate(date)}
           minDate={request.start_date || new Date()}
+          maxDate={datesObj && datesObj.length > 0 ? datesObj.find(date => date.start > request.start_date) : null}
           name="end_date"
           excludeDateIntervals={datesObj}
           placeholderText="Select a date other than the interval from 5 days ago to 5 days in the future"

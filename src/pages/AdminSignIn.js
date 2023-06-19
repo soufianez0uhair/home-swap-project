@@ -96,7 +96,7 @@ function AdminSignIn() {
   return (
     <div className="AdminSignIn" >
     <form onSubmit={(e) => handleSubmit(e)} >
-    <h2 className="mb-3" >Welcome back!</h2>
+    <h2 className="mb-3" >Soyez le bienvenu, admin!</h2>
   <div class="form-outline mb-4">
     <input onChange={(e) => handleChange(e)} value={admin.email} name="email" type="email" id="form2Example1" class="form-control" placeholder="Email address" />
     {error.email && <div className="text-danger">{error.email}</div>}

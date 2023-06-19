@@ -16,12 +16,13 @@ import AddAccommodation from "./pages/AddAccommodation";
 import AccommodationPage from "./pages/AccommodationPage";
 import AdminSignIn from "./pages/AdminSignIn";
 import AdminDashboard from "./pages/AdminDashboard";
+import UserDashboard from "./pages/UserDashboard";
 
 function App() {
   const user = useSelector(state => selectUser(state));
 
   const [swapSearch, setSwapSearch] = useState({
-    city_id: null,
+    city_id: "",
     start_date: '',
     end_date: '',
     type: ''
@@ -30,7 +31,7 @@ function App() {
   function handleChange(e) {
     let {name, value} = e.target;
 
-    value = name === 'city_id' ? Number(value) : value; 
+    value = name === 'city_id' && value ? Number(value) : value; 
 
     setSwapSearch({
       ...swapSearch,
@@ -53,6 +54,7 @@ function App() {
         <Route path="/accommodations/:id" element={<AccommodationPage />} />
         <Route path="/admin/signin" element={!admin ? <AdminSignIn /> : <Navigate to="/admin/dashboard" />} />
         <Route path="/admin/dashboard" element={admin ? <AdminDashboard /> : <Navigate to="/admin/signin" />} />
+        <Route path="/user/dashboard" element={user ? <UserDashboard /> : <Navigate to="/user/signin" />} />
       </Routes>
     </main>
   </Router>

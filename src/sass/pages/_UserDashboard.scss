@@ -1,0 +1,10 @@
+.UserDashboard {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  min-height: 100vh;
+  width: 100%;
+  margin-top: 74px;
+  &__right {
+    padding: 2rem;
+  }
+}
